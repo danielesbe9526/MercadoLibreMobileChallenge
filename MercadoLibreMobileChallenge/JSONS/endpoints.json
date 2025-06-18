@@ -1,0 +1,327 @@
+{
+  "uuid": "c040ed6b-7d85-49d3-a7b4-5208cf9cccad",
+  "lastMigration": 33,
+  "name": "MELI api",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 8083,
+  "hostname": "",
+  "folders": [
+    
+  ],
+  "routes": [
+    {
+      "uuid": "1ea7287b-f6aa-4a1e-bbc2-1302e78273f8",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "home",
+      "responses": [
+        {
+          "uuid": "0396bd8a-9697-460e-a6fa-0772568d0142",
+          "body": "[\n  {{#repeat 100 comma=true}}\n  {{setVar \"originalPrice\" (faker 'commerce.price' '{min: 10000, max: 1000000, dec: 2}')}}\n  {{setVar \"discount\" (float 0.5 0.9)}}\n  {{setVar \"installments\" (int 3 12)}}\n  {\n    \"id\": \"{{objectId}}\",\n    \"product_name\" : \"{{faker 'commerce.productName'}}\",\n    \"store\": \"{{company}}\",\n    \"brand\": {{oneOf (array 'Samsung' 'Apple' 'Nvidia' 'Xiaomi' 'Intel' 'AMD' 'Huawei' 'Motorola') true}},\n    \"seller\": \"{{faker 'music.artist'}}\",\n    \"rating\": {{float 1 5}},\n    \"num_reviews\": {{int 10 100000}},\n    \"original_price\": {{@originalPrice}},\n    \"discounted_price\": {{multiply @originalPrice @discount}},\n    \"discount_percentage\": {{subtract 1 @discount}},\n    \"installments\": \"{{concat @installments ' cuotas de ' (divide @originalPrice @installments)}}\",\n    \"shipping\": {{oneOf (array 'Envío gratis' 'Llega Mañana' null) true}},\n    \"images\": [\n      {{#repeat 1 8 comma=true}}\n      \"{{faker 'image.urlPicsumPhotos' '{width: 200, height: 200, blur: 0}'}}\"\n      {{/repeat}}\n    ]\n  }\n  {{/repeat}}\n]\n",
+          "latency": 350,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": [
+            
+          ]
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "0d896b71-8311-4e58-96bc-597946c60bd5",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "products/:id",
+      "responses": [
+        {
+          "uuid": "fe8e5804-e494-4d94-9c02-e158b766be28",
+          "body": "{{setVar \"originalPrice\" (faker 'commerce.price' '{min: 10000, max: 1000000, dec: 2}')}}\n{{setVar \"discount\" (float 0.5 0.9)}}\n{{setVar \"installments\" (int 3 12)}}\n{\n  \"id\": \"{{urlParam 'id'}}\",\n  \"product_name\" : \"{{faker 'commerce.productName'}}\",\n  \"store\": \"{{company}}\",\n  \"brand\": {{oneOf (array 'Samsung' 'Apple' 'Nvidia' 'Xiaomi' 'Intel' 'AMD' 'Huawei' 'Motorola') true}},\n  \"seller\": \"{{faker 'music.artist'}}\",\n  \"rating\": {{float 1 5}},\n  \"num_reviews\": {{int 10 100000}},\n  \"original_price\": {{@originalPrice}},\n  \"discounted_price\": {{multiply @originalPrice @discount}},\n  \"discount_percentage\": {{subtract 1 @discount}},\n  \"stock\": {{int 10 40}},\n  \"installments\": {\n    \"value\": \"{{concat @installments ' cuotas de ' (divide @originalPrice @installments)}}\",\n    \"alternative\": \"{{concat (int 2 12) ' cuotas sin tarjeta'}}\"\n  },\n  \"shipping\": {{oneOf (array 'Envío gratis' 'Llega Mañana' null) true}},\n  \"images\": [\n    {{#repeat 1 8 comma=true}}\n    \"{{faker 'image.urlPicsumPhotos' '{width: 720, height: 720, blur: 0}'}}\"\n    {{/repeat}}\n  ],\n  \"description\": \"{{faker 'lorem.sentences' '{min: 10, max: 60}'}}\"\n}",
+          "latency": 700,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": [
+            
+          ]
+        },
+        {
+          "uuid": "a82741b7-ba69-4bda-831d-c992700a74de",
+          "body": "{{setVar \"originalPrice\" (faker 'commerce.price' '{min: 900000, max: 10000000, dec: 2}')}}\n{{setVar \"discount\" (float 0.7 0.9)}}\n{{setVar \"installments\" (int 3 18)}}\n{\n  \"id\": \"{{urlParam 'id'}}\",\n  \"product_name\" : \"{{faker 'commerce.productName'}}\",\n  \"store\": \"Apple tienda oficial\",\n  \"brand\": \"Apple\",\n  \"seller\": \"{{faker 'music.artist'}}\",\n  \"rating\": {{float 3 5}},\n  \"num_reviews\": {{int 1000 1000000}},\n  \"original_price\": {{@originalPrice}},\n  \"discounted_price\": {{multiply @originalPrice @discount}},\n  \"discount_percentage\": {{subtract 1 @discount}},\n  \"stock\": {{int 5 20}},\n  \"installments\": {\n    \"value\": \"{{concat @installments ' cuotas de ' (divide @originalPrice @installments)}}\",\n    \"alternative\": \"{{concat (int 2 12) ' cuotas sin tarjeta'}}\"\n  },\n  \"shipping\": {{oneOf (array 'Envío gratis' 'Llega Mañana' null) true}},\n  \"images\": [\n    {{#repeat 6 12 comma=true}}\n    \"{{faker 'image.urlPicsumPhotos' '{width: 720, height: 720, blur: 0}'}}\"\n    {{/repeat}}\n  ],\n  \"description\": \"{{faker 'lorem.sentences' '{min: 10, max: 80}'}}\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Apple product",
+          "headers": [
+            
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "id",
+              "value": "apple",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": [
+            
+          ]
+        },
+        {
+          "uuid": "d2efe898-9e80-46f1-ac7e-4caa07c72cfc",
+          "body": "{{setVar \"originalPrice\" (faker 'commerce.price' '{min: 500000, max: 15000000, dec: 2}')}}\n{{setVar \"discount\" (float 0.6 0.95)}}\n{{setVar \"installments\" (int 3 18)}}\n{\n  \"id\": \"{{urlParam 'id'}}\",\n  \"product_name\" : \"{{faker 'commerce.productName'}}\",\n  \"store\": \"Samsung tienda oficial de Argentina, Buenos Aires, CABA\",\n  \"brand\": \"Samsung\",\n  \"seller\": \"{{faker 'music.artist'}}\",\n  \"rating\": {{float 2 5}},\n  \"num_reviews\": {{int 1000 1000000}},\n  \"original_price\": {{@originalPrice}},\n  \"discounted_price\": {{multiply @originalPrice @discount}},\n  \"discount_percentage\": {{subtract 1 @discount}},\n  \"stock\": {{int 5 20}},\n  \"installments\": {\n    \"value\": \"{{concat @installments ' cuotas de ' (divide @originalPrice @installments)}}\",\n    \"alternative\": \"{{concat (int 2 12) ' cuotas sin tarjeta'}}\"\n  },\n  \"shipping\": {{oneOf (array 'Envío gratis' 'Llega Mañana' null) true}},\n  \"images\": [\n    {{#repeat 4 12 comma=true}}\n    \"{{faker 'image.urlPicsumPhotos' '{width: 720, height: 720, blur: 0}'}}\"\n    {{/repeat}}\n  ],\n  \"description\": \"{{faker 'lorem.sentences' '{min: 10, max: 80}'}}\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Samsung product",
+          "headers": [
+            
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "id",
+              "value": "samsung",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": [
+            
+          ]
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "3775eed3-f086-4507-9491-83cdc9f99470",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "search",
+      "responses": [
+        {
+          "uuid": "40805e4d-6212-42df-bf8f-be728845250f",
+          "body": "[\n  {{#repeat 100 comma=true}}\n  {{setVar \"originalPrice\" (faker 'commerce.price' '{min: 10000, max: 1000000, dec: 2}')}}\n  {{setVar \"discount\" (float 0.5 0.9)}}\n  {{setVar \"installments\" (int 3 12)}}\n  {\n    \"id\": \"{{objectId}}\",\n    \"product_name\" : \"{{faker 'commerce.productName'}}\",\n    \"store\": \"{{company}}\",\n    \"brand\": {{oneOf (array 'Samsung' 'Apple' 'Nvidia' 'Xiaomi' 'Intel' 'AMD' 'Huawei' 'Motorola') true}},\n    \"seller\": \"{{faker 'music.artist'}}\",\n    \"rating\": {{float 1 5}},\n    \"num_reviews\": {{int 10 100000}},\n    \"original_price\": {{@originalPrice}},\n    \"discounted_price\": {{multiply @originalPrice @discount}},\n    \"discount_percentage\": {{subtract 1 @discount}},\n    \"installments\": \"{{concat @installments ' cuotas de ' (divide @originalPrice @installments)}}\",\n    \"shipping\": {{oneOf (array 'Envío gratis' 'Llega Mañana' null) true}},\n    \"images\": [\n      {{#repeat 1 8 comma=true}}\n      \"{{faker 'image.urlPicsumPhotos' '{width: 200, height: 200, blur: 0}'}}\"\n      {{/repeat}}\n    ]\n  }\n  {{/repeat}}\n]\n",
+          "latency": 700,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": [
+            
+          ]
+        },
+        {
+          "uuid": "5e84ef62-02ae-4878-b1e6-a71f3ed51878",
+          "body": "[\n  {{#repeat 100 comma=true}}\n  {{setVar \"originalPrice\" (faker 'commerce.price' '{min: 10000, max: 1000000, dec: 2}')}}\n  {{setVar \"discount\" (float 0.5 0.9)}}\n  {{setVar \"installments\" (int 3 12)}}\n  {\n    \"id\": \"{{concat (objectId) 'apple'}}\",\n    \"product_name\" : \"{{faker 'commerce.productName'}}\",\n    \"store\": \"Apple tienda oficial\",\n    \"brand\": \"Apple\",\n    \"seller\": \"{{faker 'music.artist'}}\",\n    \"rating\": {{float 1 5}},\n    \"num_reviews\": {{int 10 100000}},\n    \"original_price\": {{@originalPrice}},\n    \"discounted_price\": {{multiply @originalPrice @discount}},\n    \"discount_percentage\": {{subtract 1 @discount}},\n    \"installments\": \"{{concat @installments ' cuotas de ' (divide @originalPrice @installments)}}\",\n    \"shipping\": {{oneOf (array 'Envío gratis' 'Llega Mañana' null) true}},\n    \"images\": [\n      {{#repeat 1 8 comma=true}}\n      \"{{faker 'image.urlPicsumPhotos' '{width: 200, height: 200, blur: 0}'}}\"\n      {{/repeat}}\n    ]\n  }\n  {{/repeat}}\n]\n",
+          "latency": 400,
+          "statusCode": 200,
+          "label": "Response for iphone | apple search",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "q",
+              "value": "iphone|apple",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": [
+            
+          ]
+        },
+        {
+          "uuid": "a1f863ef-2126-466b-9b54-2c013b472467",
+          "body": "[\n  {{#repeat 100 comma=true}}\n  {{setVar \"originalPrice\" (faker 'commerce.price' '{min: 10000, max: 1000000, dec: 2}')}}\n  {{setVar \"discount\" (float 0.5 0.9)}}\n  {{setVar \"installments\" (int 3 12)}}\n  {\n    \"id\": \"{{concat (objectId) 'samsung'}}\",\n    \"product_name\" : \"{{faker 'commerce.productName'}}\",\n    \"store\": \"Samsung tienda oficial de Argentina, Buenos Aires, CABA\",\n    \"brand\": \"Samsung\",\n    \"seller\": \"{{faker 'music.artist'}}\",\n    \"rating\": {{float 1 5}},\n    \"num_reviews\": {{int 10 100000}},\n    \"original_price\": {{@originalPrice}},\n    \"discounted_price\": {{multiply @originalPrice @discount}},\n    \"discount_percentage\": {{subtract 1 @discount}},\n    \"installments\": \"{{concat @installments ' cuotas de ' (divide @originalPrice @installments)}}\",\n    \"shipping\": {{oneOf (array 'Envío gratis' 'Llega Mañana' null) true}},\n    \"images\": [\n      {{#repeat 1 8 comma=true}}\n      \"{{faker 'image.urlPicsumPhotos' '{width: 200, height: 200, blur: 0}'}}\"\n      {{/repeat}}\n    ]\n  }\n  {{/repeat}}\n]\n",
+          "latency": 400,
+          "statusCode": 200,
+          "label": "Response for samsung",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "q",
+              "value": "samsung",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": [
+            
+          ]
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "1ea7287b-f6aa-4a1e-bbc2-1302e78273f8"
+    },
+    {
+      "type": "route",
+      "uuid": "0d896b71-8311-4e58-96bc-597946c60bd5"
+    },
+    {
+      "type": "route",
+      "uuid": "3775eed3-f086-4507-9491-83cdc9f99470"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    },
+    {
+      "key": "Access-Control-Allow-Origin",
+      "value": "*"
+    },
+    {
+      "key": "Access-Control-Allow-Methods",
+      "value": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+    },
+    {
+      "key": "Access-Control-Allow-Headers",
+      "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [
+    
+  ],
+  "callbacks": [
+    
+  ]
+}

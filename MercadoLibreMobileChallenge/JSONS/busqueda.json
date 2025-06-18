@@ -1,0 +1,210 @@
+[
+  {
+    "id": "18ae1820a5b68ec585caddccapple",
+    "product_name": "Awesome Ceramic Shirt",
+    "store": "Apple tienda oficial",
+    "brand": "Apple",
+    "seller": "Paul Revere &amp; the Raiders",
+    "rating": 2.234573521907825,
+    "num_reviews": 43078,
+    "original_price": 94639.49,
+    "discounted_price": 77145.43326219155,
+    "discount_percentage": 0.18484944009956572,
+    "installments": "4 cuotas de 23659.8725",
+    "shipping": "Envío gratis",
+    "images": [
+      "https://picsum.photos/seed/HAxXyPk/200/200?grayscale",
+      "https://picsum.photos/seed/Zk1IOlLNWr/200/200?grayscale",
+      "https://picsum.photos/seed/iuhMj/200/200"
+    ]
+  },
+  {
+    "id": "df7aca1ed97d4efc4caa75f4apple",
+    "product_name": "Small Metal Tuna",
+    "store": "Apple tienda oficial",
+    "brand": "Apple",
+    "seller": "JAY-Z",
+    "rating": 4.781581143920581,
+    "num_reviews": 10529,
+    "original_price": 36778.19,
+    "discounted_price": 20644.135367894774,
+    "discount_percentage": 0.43868539023005826,
+    "installments": "10 cuotas de 3677.8190000000004",
+    "shipping": "Envío gratis",
+    "images": [
+      "https://picsum.photos/seed/WH1Pi6ao6o/200/200",
+      "https://picsum.photos/seed/lLFnZkw/200/200?grayscale",
+      "https://picsum.photos/seed/t3cq6/200/200"
+    ]
+  },
+  {
+    "id": "80cf84cab75abe7ad4df9b0capple",
+    "product_name": "Modern Gold Mouse",
+    "store": "Apple tienda oficial",
+    "brand": "Apple",
+    "seller": "The Cure",
+    "rating": 1.9004804581545982,
+    "num_reviews": 90229,
+    "original_price": 222880.64,
+    "discounted_price": 134352.80084905797,
+    "discount_percentage": 0.39719842491004176,
+    "installments": "11 cuotas de 20261.876363636366",
+    "shipping": "Llega Mañana",
+    "images": [
+      "https://picsum.photos/seed/JTOFWJq/200/200?grayscale",
+      "https://picsum.photos/seed/xpeDkV/200/200",
+      "https://picsum.photos/seed/NmpUswFpM6/200/200",
+      "https://picsum.photos/seed/GfCsUFcatx/200/200",
+      "https://picsum.photos/seed/KOYj6I6/200/200",
+      "https://picsum.photos/seed/fK9ygz4Ff/200/200"
+    ]
+  },
+  {
+    "id": "bdf3bb8ddc4ebf2ee3d618dbapple",
+    "product_name": "Oriental Plastic Computer",
+    "store": "Apple tienda oficial",
+    "brand": "Apple",
+    "seller": "Hans Zimmer",
+    "rating": 3.8980797284813336,
+    "num_reviews": 30289,
+    "original_price": 144216.09,
+    "discounted_price": 72840.47877692788,
+    "discount_percentage": 0.49492127558771093,
+    "installments": "5 cuotas de 28843.218",
+    "shipping": null,
+    "images": [
+      "https://picsum.photos/seed/Si82mbf6/200/200",
+      "https://picsum.photos/seed/C0ov2/200/200?grayscale"
+    ]
+  },
+  {
+    "id": "dcdc05aa6af3fe1347ab2ebfapple",
+    "product_name": "Small Metal Hat",
+    "store": "Apple tienda oficial",
+    "brand": "Apple",
+    "seller": "Champs",
+    "rating": 2.7964117099824737,
+    "num_reviews": 79131,
+    "original_price": 711817.15,
+    "discounted_price": 526750.6916231291,
+    "discount_percentage": 0.2599915699936015,
+    "installments": "7 cuotas de 101688.16428571429",
+    "shipping": "Envío gratis",
+    "images": [
+      "https://picsum.photos/seed/9HxLAN2/200/200"
+    ]
+  },
+  {
+    "id": "dd5f1e67e908e0659ff8ac61apple",
+    "product_name": "Awesome Steel Cheese",
+    "store": "Apple tienda oficial",
+    "brand": "Apple",
+    "seller": "Ricky Martin",
+    "rating": 3.8570798661650727,
+    "num_reviews": 43924,
+    "original_price": 749291.59,
+    "discounted_price": 612896.6349641838,
+    "discount_percentage": 0.18203187765101725,
+    "installments": "12 cuotas de 62440.96583333333",
+    "shipping": "Envío gratis",
+    "images": [
+      "https://picsum.photos/seed/GYwKa7Lw/200/200",
+      "https://picsum.photos/seed/XPSmt/200/200",
+      "https://picsum.photos/seed/kBOPkIU/200/200?grayscale",
+      "https://picsum.photos/seed/rA19X8B/200/200",
+      "https://picsum.photos/seed/mDiR46S4Uh/200/200",
+      "https://picsum.photos/seed/NWSrYwoRQc/200/200",
+      "https://picsum.photos/seed/3rE6yKD8B/200/200?grayscale"
+    ]
+  },
+  {
+    "id": "3498ae38ce5e159cafea68a1apple",
+    "product_name": "Soft Rubber Soap",
+    "store": "Apple tienda oficial",
+    "brand": "Apple",
+    "seller": "Normani",
+    "rating": 1.8092305349218734,
+    "num_reviews": 79368,
+    "original_price": 74913.35,
+    "discounted_price": 54024.20281628807,
+    "discount_percentage": 0.2788441203565444,
+    "installments": "7 cuotas de 10701.907142857144",
+    "shipping": "Envío gratis",
+    "images": [
+      "https://picsum.photos/seed/oweQ2CDIi/200/200?grayscale",
+      "https://picsum.photos/seed/HfbhYcC3/200/200",
+      "https://picsum.photos/seed/0pXVCQn7p/200/200?grayscale",
+      "https://picsum.photos/seed/g8jbuKVQ/200/200",
+      "https://picsum.photos/seed/opt8jt/200/200",
+      "https://picsum.photos/seed/H6xTwYT/200/200",
+      "https://picsum.photos/seed/GJJqEfMZ1/200/200?grayscale",
+      "https://picsum.photos/seed/2eyedy7XC0/200/200?grayscale"
+    ]
+  },
+  {
+    "id": "ad2fff6cc40eb58422aea6ebapple",
+    "product_name": "Licensed Aluminum Chair",
+    "store": "Apple tienda oficial",
+    "brand": "Apple",
+    "seller": "Khalid",
+    "rating": 1.7882996906439912,
+    "num_reviews": 14022,
+    "original_price": 626532.1,
+    "discounted_price": 471336.3288681928,
+    "discount_percentage": 0.24770601718859608,
+    "installments": "6 cuotas de 104422.01666666666",
+    "shipping": null,
+    "images": [
+      "https://picsum.photos/seed/yReIWRPs/200/200",
+      "https://picsum.photos/seed/95AGl1BK2i/200/200?grayscale",
+      "https://picsum.photos/seed/tvvkp/200/200?grayscale",
+      "https://picsum.photos/seed/kmFDOk/200/200?grayscale",
+      "https://picsum.photos/seed/ArYce/200/200",
+      "https://picsum.photos/seed/XMg1Va6Psx/200/200?grayscale"
+    ]
+  },
+  {
+    "id": "5360ce78332c72f2c999760fapple",
+    "product_name": "Luxurious Ceramic Bacon",
+    "store": "Apple tienda oficial",
+    "brand": "Apple",
+    "seller": "Jimmie Rodgers",
+    "rating": 3.160452161442229,
+    "num_reviews": 95000,
+    "original_price": 78209.19,
+    "discounted_price": 62482.589508609155,
+    "discount_percentage": 0.20108379196090442,
+    "installments": "10 cuotas de 7820.919",
+    "shipping": "Envío gratis",
+    "images": [
+      "https://picsum.photos/seed/KMyBiHQP/200/200",
+      "https://picsum.photos/seed/pfL40Mw7n9/200/200",
+      "https://picsum.photos/seed/KCxfek1w/200/200",
+      "https://picsum.photos/seed/941T0hCtR/200/200",
+      "https://picsum.photos/seed/v66SD/200/200?grayscale"
+    ]
+  },
+  {
+    "id": "e6d24ad431904c973a334e67apple",
+    "product_name": "Fresh Bronze Gloves",
+    "store": "Apple tienda oficial",
+    "brand": "Apple",
+    "seller": "Grand Funk Railroad",
+    "rating": 3.3616418373989827,
+    "num_reviews": 67640,
+    "original_price": 615863.55,
+    "discounted_price": 456006.6610457254,
+    "discount_percentage": 0.2595654328857011,
+    "installments": "3 cuotas de 205287.85",
+    "shipping": "Envío gratis",
+    "images": [
+      "https://picsum.photos/seed/qplmZ/200/200",
+      "https://picsum.photos/seed/7cjDfzJO3/200/200",
+      "https://picsum.photos/seed/OAX9nvIU9/200/200",
+      "https://picsum.photos/seed/ssBdXH/200/200",
+      "https://picsum.photos/seed/sv9XrW/200/200",
+      "https://picsum.photos/seed/qNhjF4w1o3/200/200?grayscale",
+      "https://picsum.photos/seed/J41NRJP/200/200?grayscale"
+    ]
+  }
+]

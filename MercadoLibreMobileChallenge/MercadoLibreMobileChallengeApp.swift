@@ -9,9 +9,24 @@ import SwiftUI
 
 @main
 struct MercadoLibreMobileChallengeApp: App {
+    let session: APIInteractor
+    var fabric: ScreenFabric
+    var destination: DestinationViewModel
+    let viewModel: HomeViewModel
+    
+    init() {
+        session = APIInteractor(session: Session())
+        destination = DestinationViewModel()
+        viewModel = HomeViewModel(destination: destination, apiInteractor: MLRepositoryCore(apiInteractor: session))
+        
+        fabric = ScreenFabric(homeViewModel: viewModel)
+    }
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationWrapperView(destination: destination, fabric: fabric) {
+                fabric.createView(item: .homeView)
+            }
         }
     }
 }
