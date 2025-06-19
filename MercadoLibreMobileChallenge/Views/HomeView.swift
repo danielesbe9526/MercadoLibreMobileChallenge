@@ -10,6 +10,7 @@ import SwiftUI
 
 struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
+    @EnvironmentObject var colorManager: ColorManager
     
     let columnsGrid = [GridItem(.adaptive(minimum: 190, maximum: 200))]
     let columnsList = [GridItem(.fixed(350))]
@@ -33,18 +34,20 @@ struct HomeView: View {
                                     CardVView(product: product, viewModel: viewModel)
                                         .padding(8)
                                         .onTapGesture {
-                                            // Todo: - show detail
+                                            viewModel.getDetailProduct()
+                                            viewModel.routeToDetail()
                                         }
                                 } else {
                                     CardHView(product: product, viewModel: viewModel)
                                         .padding(8)
                                         .onTapGesture {
-                                            // Todo: - show detail
+                                            viewModel.routeToDetail()
                                         }
                                 }
                             }
                         }
                     }
+                    .animation(.easeInOut(duration: 0.5), value: showInList)
                 }
             }
             .toolbar {
@@ -100,14 +103,14 @@ struct HomeView: View {
                     showInList = false
                 }
                 .fontWeight(.bold)
-                .foregroundStyle(showInList ? .black : .blue)
+                .foregroundStyle(showInList ? .black : colorManager.primaryColor)
                 .font(.system(size: 20))
                 
                 Button("", systemImage: "list.bullet") {
                     showInList = true
                 }
                 .fontWeight(.bold )
-                .foregroundStyle(showInList ? .blue : .black)
+                .foregroundStyle(showInList ? colorManager.primaryColor : .black)
                 .font(.system(size: 20))
             }
         }
@@ -166,5 +169,6 @@ struct HomeView_Previews: PreviewProvider {
         NavigationWrapperView(destination: DestinationViewModel(), fabric: ScreenFabric(homeViewModel: viewModel)) {
                 HomeView(viewModel: viewModel)
         }
+        .environmentObject(ColorManager())
     }
 }

@@ -12,36 +12,45 @@ enum TextStyles {
     case store
     case brand
     case tittle
-    case brandChecked
-    case previousPrice
-    case newPrice
+    case green12
+    case discount
+    case actionLabel
 }
 
 struct TextStyle: ViewModifier {
     var style: TextStyles
-    
+    @EnvironmentObject var colorManager: ColorManager
+
     func body(content: Content) -> some View {
         switch style {
         case .store:
             return content
-                .font(.footnote)
+                .font(.system(size: 12, weight: .thin))
+                .foregroundColor(.white)
             
         case .brand:
             return content
-                .font(.subheadline)
+                .font(.system(size: 14, weight: .regular))
+                .foregroundColor(.black)
         case .tittle:
             return content
-                .font(.subheadline)
-        case .brandChecked:
-            return content
-                .font(.subheadline)
+                .font(.system(size: 16, weight: .regular))
+                .foregroundColor(.font)
             
-        case .previousPrice:
+        case .green12:
             return content
-                .font(.subheadline)
-        case .newPrice:
+                .font(.system(size: 12, weight: .regular))
+                .foregroundColor(.verdeML)
+        
+        case .discount:
             return content
-                .font(.subheadline)
+                .font(.system(size: 12, weight: .light))
+                .foregroundColor(.verdeML)
+        
+        case .actionLabel:
+            return content
+                .font(.system(size: 10, weight: .regular))
+                .foregroundColor(colorManager.primaryColor.opacity(0.5))
         }
     }
 }
@@ -49,16 +58,5 @@ struct TextStyle: ViewModifier {
 extension View {
     func textStyle(_ style: TextStyles) -> some View {
         self.modifier(TextStyle(style: style))
-    }
-}
-
-struct ColorTextModifier: ViewModifier {
-    func body(content: Content) -> some View {
-        return content
-            .font(.footnote)
-            .padding(3)
-            .fontWeight(.thin)
-            .background(.black)
-            .foregroundStyle(.white)
     }
 }

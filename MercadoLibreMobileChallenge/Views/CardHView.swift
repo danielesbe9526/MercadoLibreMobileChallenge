@@ -46,6 +46,7 @@ struct CardHView: View {
                     .resizable()
                     .frame(maxHeight: 200)
                     .scaledToFit()
+                    .clipShape(RoundedRectangle(cornerRadius: 14))
             
             @unknown default:
                 Image(systemName: "photo.fill")
@@ -64,15 +65,12 @@ struct CardHView: View {
             VStack(alignment: .leading) {
                 if let brand = product.brand {
                     Text(brand.uppercased())
-                        .font(.system(size: 14))
-                        .foregroundStyle(.font)
-                        
+                        .textStyle(.brand)
                 }
                 
                 if let name = product.name {
                     Text(product.isAppleSeller ? name + " - " + "Distribuidor Autorizado" : name)
-                        .foregroundStyle(.font)
-                        .font(.system(size: 16))
+                        .textStyle(.tittle)
                 }
             }
             
@@ -100,8 +98,7 @@ struct CardHView: View {
             
             if viewModel.showSamePrice {
                 Text("Mismo precio en \(installmentsSTR)")
-                    .foregroundStyle(.green)
-                    .font(.system(size: 12))
+                    .textStyle(.green12)
 
             } else if product.installments != nil {
                 Text(viewModel.installmentsMessage)
@@ -111,8 +108,7 @@ struct CardHView: View {
            
             if let shipping = product.shipping {
                 Text(shipping)
-                    .foregroundStyle(.green)
-                    .font(.system(size: 12))
+                    .textStyle(.green12)
             }
             
             Spacer()
@@ -130,9 +126,7 @@ struct CardHView: View {
                     PriceView(value: originalPrice, size: 18)
                     let discountPercentage = String(format: "%.1f", product.discountPercentage ?? 0)
                     Text("\(discountPercentage)%OFF")
-                        .foregroundStyle(.green)
-                        .fontWeight(.light)
-                        .font(.system(size: 12))
+                        .textStyle(.discount)
                 }
             } else {
                 PriceView(value: originalPrice, size: 18)

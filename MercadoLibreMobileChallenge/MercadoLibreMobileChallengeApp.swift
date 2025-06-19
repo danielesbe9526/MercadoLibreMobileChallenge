@@ -14,6 +14,8 @@ struct MercadoLibreMobileChallengeApp: App {
     var destination: DestinationViewModel
     let viewModel: HomeViewModel
     
+    @StateObject private var colorManager = ColorManager()
+    
     init() {
         session = APIInteractor(session: Session())
         destination = DestinationViewModel()
@@ -27,6 +29,7 @@ struct MercadoLibreMobileChallengeApp: App {
             NavigationWrapperView(destination: destination, fabric: fabric) {
                 fabric.createView(item: .homeView)
             }
+            .environmentObject(colorManager)
         }
     }
 }

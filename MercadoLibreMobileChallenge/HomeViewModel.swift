@@ -17,7 +17,7 @@ public class HomeViewModel: ObservableObject {
     @Published var requestFails = false
     @Published var showSamePrice = false
     @Published var homeProducts: Products? = nil
-    
+    @Published var productDetail: ProductDetail? = nil
     
     public init(destination: DestinationViewModel? = nil, apiInteractor: MLRepositoryType? = nil) {
         self.destination = destination
@@ -79,5 +79,24 @@ public class HomeViewModel: ObservableObject {
             }
         }
     }
+    
+    @MainActor
+    func getDetailProduct() {
+        Task {
+            showSpiner = true
+            let product = try await apiInteractor?.getProductDetail()
+            if let product {
+                showSpiner = false
+                productDetail = product
+            } else {
+                requestFails = true
+            }
+        }
+    }
 }
 
+extension HomeViewModel {
+    func routeToDetail() {
+        destination?.navigate(to: .productDetailView)
+    }
+}

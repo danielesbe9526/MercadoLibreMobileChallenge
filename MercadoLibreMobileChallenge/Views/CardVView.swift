@@ -63,18 +63,16 @@ struct CardVView: View {
         VStack(alignment: .leading, spacing: 15) {
             if let store = product.store {
                 Text(store.uppercased())
-                    .font(.system(size: 12))
+                    .textStyle(.store)
                     .padding(3)
-                    .fontWeight(.thin)
                     .background(.black)
-                    .foregroundStyle(.white)
+                
             }
             
             VStack(alignment: .leading) {
                 if let brand = product.brand {
                     Text(brand.uppercased())
-                        .font(.system(size: 14))
-                        .foregroundStyle(.font)
+                        .textStyle(.brand)
                 }
                 
                 if let name = product.name {
@@ -116,9 +114,7 @@ struct CardVView: View {
                             PriceView(value: originalPrice, size: 20)
                             let discountPercentage = String(format: "%.1f", product.discountPercentage ?? 0)
                             Text("\(discountPercentage)%OFF")
-                                .foregroundStyle(.green)
-                                .fontWeight(.light)
-                                .font(.system(size: 14))
+                                .textStyle(.discount)
                         }
                     } else {
                         PriceView(value: originalPrice, size: 18)
@@ -128,8 +124,7 @@ struct CardVView: View {
             
             if viewModel.showSamePrice {
                 Text("Mismo precio en \(installmentsSTR)")
-                    .foregroundStyle(.green)
-                    .font(.system(size: 12))
+                    .textStyle(.green12)
 
             } else if product.installments != nil {
                 Text(viewModel.installmentsMessage)
@@ -139,8 +134,7 @@ struct CardVView: View {
            
             if let shipping = product.shipping {
                 Text(shipping)
-                    .foregroundStyle(.green)
-                    .font(.system(size: 12))
+                    .textStyle(.green12)
             }
             Spacer()
         }

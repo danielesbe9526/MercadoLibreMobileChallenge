@@ -8,6 +8,7 @@
 import SwiftUI
 
 public struct ProductDetailView: View {
+    @EnvironmentObject var colorManager: ColorManager
     @State private var product: ProductDetail
     @ObservedObject var viewModel: HomeViewModel
     @State var installmentsSTR: String = ""
@@ -20,11 +21,12 @@ public struct ProductDetailView: View {
                         .padding(13)
                         .background(Color(UIColor(resource: .amarilloML)))
                         .offset(y: -5)
+                    
                     VStack(alignment: .leading, spacing: 15) {
                         HStack {
                             Text("Nuevo | +100 vendidos")
                                 .font(.system(size: 12))
-                                .foregroundStyle(.gray.opacity(0.8))
+                                .foregroundStyle(.font.opacity(0.8))
                             
                             Spacer()
                             
@@ -94,7 +96,7 @@ public struct ProductDetailView: View {
             
             if viewModel.showSamePrice {
                 Text("Mismo precio en \(installmentsSTR)")
-                    .foregroundStyle(.green)
+                    .foregroundStyle(.verdeML)
                     .font(.system(size: 14))
             } else if product.installments != nil {
                 Text(viewModel.installmentsMessage)
@@ -109,23 +111,36 @@ public struct ProductDetailView: View {
             }
 
             Text("Ver los medios de pago")
-                .foregroundStyle(.font.opacity(0.4))
-                .font(.system(size: 10))
+                .textStyle(.actionLabel)
                 .padding(.vertical, 3)
             
             
             if let shipping = product.shipping {
                 Text(shipping)
-                    .foregroundStyle(.green)
-                    .font(.system(size: 12))
+                    .foregroundStyle(.verdeML)
+                    .font(.system(size: 14))
                     .padding(.top, 15)
             }
             
             Text("Mas formas de entrega")
-                .foregroundStyle(.font.opacity(0.4))
-                .font(.system(size: 10))
+                .textStyle(.actionLabel)
                 .padding(.vertical, 3)
             
+            
+            VStack(alignment: .leading) {
+                Text("Retira gratis a partir del sabado en correos y otros puntos")
+                    .foregroundStyle(.verdeML)
+                    .font(.system(size: 14))
+                    .padding(.top, 15)
+                
+                Text("Tienes un punto de entrega a 450m")
+                    .foregroundStyle(.font.opacity(0.4))
+                    .font(.system(size: 12))
+                    .padding(.vertical, 3)
+                
+                Text("Ver en el mapa")
+                    .textStyle(.actionLabel)
+            }
             
             Spacer()
         }
@@ -141,7 +156,7 @@ public struct ProductDetailView: View {
                     let discountPercentage = String(format: "%.1f", product.discountPercentage ?? 0)
                     Text("\(discountPercentage)%OFF")
                         .font(.system(size: 18))
-                        .foregroundStyle(.green)
+                        .foregroundStyle(.verdeML)
                 }
             } else {
                 PriceView(value: originalPrice, size: 18)

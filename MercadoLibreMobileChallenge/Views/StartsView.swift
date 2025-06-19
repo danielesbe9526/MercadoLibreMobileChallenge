@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct StartsView: View {
+    @EnvironmentObject var colorManager: ColorManager
+
     let rating: Double
     let numberOfVotes: Int
     let maxStars: Int = 5
@@ -21,7 +23,7 @@ struct StartsView: View {
             
             ForEach(0..<maxStars, id: \.self) { index in
                 self.starType(for: index)
-                    .foregroundColor(.azulML)
+                    .foregroundColor(colorManager.primaryColor)
                     .font(.system(size: 10))
             }
             
@@ -46,4 +48,5 @@ struct StartsView: View {
 
 #Preview {
     StartsView(rating: 3.5, numberOfVotes: 12314)
+        .environmentObject(ColorManager())
 }
