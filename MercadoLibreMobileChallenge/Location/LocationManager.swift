@@ -1,0 +1,92 @@
+//
+//  LocationManager.swift
+//  MercadoLibreMobileChallenge
+//
+//  Created by Daniel Beltran on 19/06/25.
+//
+
+import CoreLocation
+import Combine
+
+class LocationManager: NSObject, ObservableObject {
+    private let locationManager = CLLocationManager()
+    private let geocoder = CLGeocoder()
+    
+    @Published var userCoordinate: CLLocationCoordinate2D?
+    @Published var placemark: CLPlacemark?
+    @Published var errorMessage: String?
+
+    override init() {
+        super.init()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        checkAuthorization()
+    }
+    
+    private func checkAuthorization() {
+        switch locationManager.authorizationStatus {
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .restricted, .denied:
+            errorMessage = "Permiso de ubicación denegado. Por favor, habilítalo en Configuración."
+        case .authorizedAlways, .authorizedWhenInUse:
+            locationManager.startUpdatingLocation()
+        @unknown default:
+            errorMessage = "Estado de autorización desconocido."
+        }
+    }
+    
+    private func fetchAddress(from location: CLLocation) {
+        geocoder.reverseGeocodeLocation(location) { [weak self] placemarks, error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    self?.errorMessage = "Error al obtener la dirección: \(error.localizedDescription)"
+                    return
+                }
+                if let placemark = placemarks?.first {
+                    self?.placemark = placemark
+                } else {
+                    self?.errorMessage = "No se encontró ninguna dirección para esta ubicación."
+                }
+            }
+        }
+    }
+}
+
+extension LocationManager: CLLocationManagerDelegate {
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch manager.authorizationStatus {
+        case .authorizedAlways, .authorizedWhenInUse:
+            manager.startUpdatingLocation()
+        case .restricted, .denied:
+            errorMessage = "Permiso de ubicación denegado."
+        case .notDetermined:
+            manager.requestWhenInUseAuthorization()
+        @unknown default:
+            errorMessage = "Estado de autorización desconocido."
+        }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+        DispatchQueue.main.async {
+            self.userCoordinate = location.coordinate
+            self.fetchAddress(from: location)
+        }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        DispatchQueue.main.async {
+            self.errorMessage = "Error al obtener la ubicación: \(error.localizedDescription)"
+        }
+    }
+}
+
+
+extension CLPlacemark {
+    var compactAddress: String? {
+        [name, thoroughfare, locality, administrativeArea, postalCode]
+            .compactMap { $0 }
+            .joined(separator: ", ")
+    }
+}

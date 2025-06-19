@@ -11,7 +11,8 @@ import SwiftUI
 struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
     @EnvironmentObject var colorManager: ColorManager
-    
+    @StateObject private var locationManager = LocationManager()
+
     let columnsGrid = [GridItem(.adaptive(minimum: 190, maximum: 200))]
     let columnsList = [GridItem(.fixed(350))]
     
@@ -25,6 +26,18 @@ struct HomeView: View {
                     .padding(13)
                     .background(Color(UIColor(resource: .amarilloML)))
                     .offset(y: -5)
+               
+                VStack {
+                    if let placemark = locationManager.placemark {
+                        Text("Dirección: \(placemark.compactAddress ?? "Desconocido")")
+                    } else if let error = locationManager.errorMessage {
+                        Text("Error: \(error)")
+                            .foregroundColor(.red)
+                    } else {
+                        Text("Obteniendo ubicación y dirección...")
+                    }
+                }
+                .padding()
                 
                 ScrollView {
                     LazyVGrid(columns: showInList ? columnsList : columnsGrid ) {
