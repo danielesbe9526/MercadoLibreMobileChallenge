@@ -16,6 +16,9 @@ class LocationManager: NSObject, ObservableObject {
     @Published var placemark: CLPlacemark?
     @Published var errorMessage: String?
 
+    private var lastGeocodeTime: Date?
+    private let minIntervalBetweenRequests: TimeInterval = 10
+
     override init() {
         super.init()
         locationManager.delegate = self
@@ -37,21 +40,28 @@ class LocationManager: NSObject, ObservableObject {
     }
     
     private func fetchAddress(from location: CLLocation) {
-        geocoder.reverseGeocodeLocation(location) { [weak self] placemarks, error in
-            DispatchQueue.main.async {
-                if let error = error {
-                    self?.errorMessage = "Error al obtener la dirección: \(error.localizedDescription)"
-                    return
-                }
-                if let placemark = placemarks?.first {
-                    self?.placemark = placemark
-                } else {
-                    self?.errorMessage = "No se encontró ninguna dirección para esta ubicación."
+            let now = Date()
+            if let lastRequest = lastGeocodeTime, now.timeIntervalSince(lastRequest) < minIntervalBetweenRequests {
+                return
+            }
+        
+            lastGeocodeTime = now
+            
+            geocoder.reverseGeocodeLocation(location) { [weak self] placemarks, error in
+                DispatchQueue.main.async {
+                    if let error = error {
+                        self?.errorMessage = "Error al obtener la dirección: \(error.localizedDescription)"
+                        return
+                    }
+                    if let placemark = placemarks?.first {
+                        self?.placemark = placemark
+                    } else {
+                        self?.errorMessage = "No se encontró ninguna dirección para esta ubicación."
+                    }
                 }
             }
         }
     }
-}
 
 extension LocationManager: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
@@ -85,7 +95,7 @@ extension LocationManager: CLLocationManagerDelegate {
 
 extension CLPlacemark {
     var compactAddress: String? {
-        [name, thoroughfare, locality, administrativeArea, postalCode]
+        [thoroughfare, locality, postalCode]
             .compactMap { $0 }
             .joined(separator: ", ")
     }

@@ -33,6 +33,6 @@ struct NavigationWrapperView<Content: View>: View {
                     fabric.createView(item: $0)
                 }
         }
-        .background(.yellow)
+        .background(Color(UIColor(resource: .amarilloML)))
     }
 }

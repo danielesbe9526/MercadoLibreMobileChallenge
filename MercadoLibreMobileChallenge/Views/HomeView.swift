@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
     @EnvironmentObject var colorManager: ColorManager
@@ -16,29 +15,21 @@ struct HomeView: View {
     let columnsGrid = [GridItem(.adaptive(minimum: 190, maximum: 200))]
     let columnsList = [GridItem(.fixed(350))]
     
+    @State private var alertModel: AlertModel?
     @State private var searchText = ""
     @State private var showInList: Bool = true
-    
+    @State private var showOverlay: Bool = false
+
+    let items = ["iPhone", "Samsung", "Pelota"]
+
     var body: some View {
-        ViewWrapper {
+        ViewWrapper(spinerRun: $viewModel.showSpiner, alertModel: $alertModel) {
             VStack {
                 HeaderView
                     .padding(13)
                     .background(Color(UIColor(resource: .amarilloML)))
                     .offset(y: -5)
-               
-                VStack {
-                    if let placemark = locationManager.placemark {
-                        Text("Dirección: \(placemark.compactAddress ?? "Desconocido")")
-                    } else if let error = locationManager.errorMessage {
-                        Text("Error: \(error)")
-                            .foregroundColor(.red)
-                    } else {
-                        Text("Obteniendo ubicación y dirección...")
-                    }
-                }
-                .padding()
-                
+
                 ScrollView {
                     LazyVGrid(columns: showInList ? columnsList : columnsGrid ) {
                         if let products = viewModel.homeProducts {
@@ -63,33 +54,65 @@ struct HomeView: View {
                     .animation(.easeInOut(duration: 0.5), value: showInList)
                 }
             }
+            .animation(.easeInOut(duration: 0.5), value: showOverlay)
             .toolbar {
-                ToolbarItem(placement: .principal) {
-                    HStack {
+                if !showOverlay {
+                    ToolbarItem(placement: .principal) {
                         TextField("Buscar...", text: $searchText)
                             .font(.system(size: 12))
-                            .padding(5)
+                            .padding(10)
+                            .background(Color.white)
+                            .cornerRadius(15)
+                            .padding(.horizontal, 20)
                     }
-                    .padding(5)
-                    .background(Color.white)
-                    .cornerRadius(15)
-                    .padding(.horizontal, 20)
+                    
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Image(systemName: "gearshape.fill")
+                            .foregroundColor(.black)
+                    }
                 }
                 
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Image(systemName: "gearshape.fill")
-                        .foregroundColor(.black)
-                }
             }
             .overlay {
-                if !searchText.isEmpty {
-                    Rectangle()
-                        .background(.gray.opacity(0.3))
+                if showOverlay {
+                    Color.white
+                        .ignoresSafeArea(.all)
+                    VStack {
+                        HStack {
+                            Button("", systemImage: "arrow.backward") {
+                                showOverlay = false
+                            }
+                            
+                            TextField("Buscar en Mercado Libre", text: $searchText)
+                        }
+                        .padding()
+                        
+                        Divider()
+                        
+                        searchView
+                    }
                 }
             }
             .onAppear {
                 viewModel.getHomeProducts()
             }
+        }
+        .onChange(of: locationManager.errorMessage) { oldValue, newValue in
+            if newValue != nil {
+                alertModel = AlertModel(title: "🚧 Error obteniendo ubicacion 🚧",
+                                        message: newValue,
+                                        mainButtonTitle: "got it")
+            }
+        }
+        .onChange(of: viewModel.requestFails) { oldValue, newValue in
+            if newValue {
+                alertModel = AlertModel(title: "🛜 Error obteniendo datos 🛜",
+                                        message: "Por favor verifique su conexion.",
+                                        mainButtonTitle: "got it")
+            }
+        }
+        .onChange(of: searchText) { oldValue, newValue in
+            showOverlay = !newValue.isEmpty
         }
     }
     
@@ -100,9 +123,13 @@ struct HomeView: View {
                 Image(systemName: "mappin")
                     .fontWeight(.thin)
                     .font(.system(size: 20))
-                Text("Calle posta 4789")
-                    .fontWeight(.thin)
-                    .font(.system(size: 12))
+                
+                if let placemark = locationManager.placemark {
+                    Text("\(placemark.compactAddress ?? "Desconocido")")
+                        .fontWeight(.thin)
+                        .font(.system(size: 12))
+                }
+               
                 Image(systemName: "chevron.right")
                     .fontWeight(.medium)
                     .font(.system(size: 15))
@@ -129,6 +156,27 @@ struct HomeView: View {
         }
     }
     
+    @ViewBuilder
+    var searchView: some View {
+
+        VStack(spacing: 0) {
+            List {
+                ForEach(items, id: \.self) { item in
+                    HStack {
+                        Image(systemName: "clock")
+                            .foregroundColor(.font.opacity(0.6))
+                        Text(item)
+                            .foregroundColor(.font.opacity(0.6))
+                        Spacer()
+                        Image(systemName: "arrow.up.left")
+                            .foregroundColor(.font.opacity(0.6))
+                    }
+                }
+            }
+            .listStyle(PlainListStyle())
+        }
+        .ignoresSafeArea(.all)
+    }
 }
 
 struct HomeView_Previews: PreviewProvider {

@@ -31,30 +31,8 @@ struct CardVView: View {
     
     @ViewBuilder
     var productImage: some View {
-        AsyncImage(url: URL(string: product.images?.first ?? "")) { phase in
-            switch phase {
-            case .empty, .failure(_):
-                Image(systemName: "photo.fill")
-                    .resizable()
-                    .renderingMode(.template)
-                    .frame(maxWidth: 120)
-                    .scaledToFit()
-                    .foregroundStyle(.gray.opacity(0.2))
-                
-            case .success(let image):
-                image
-                    .resizable()
-                    .frame(width: 120)
-                    .scaledToFit()
-            
-            @unknown default:
-                Image(systemName: "photo.fill")
-                    .resizable()
-                    .renderingMode(.template)
-                    .scaledToFit()
-                    .foregroundStyle(.gray.opacity(0.2))
-                    .frame(maxWidth: 100)
-            }
+        if let url = URL(string: product.images?.first ?? "") {
+            CachedAsyncImage(url: url)
         }
     }
     

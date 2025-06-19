@@ -42,28 +42,4 @@ extension AlertModel {
                    mainButtonTitle: "got it",
                    mainButtonAction: mainButtonAction)
     }
-    
-    static func requestError(codeError: Int, mainButtonAction: (() -> Void)?, secondButtonAction: (() -> Void)?) -> AlertModel {
-        switch codeError {
-        case 300...400:
-            return AlertModel(title: "🆘 Invalid response 🆘",
-                              message: "We are having some issues, please contact us.",
-                              mainButtonTitle: "got it",
-                              secondButtonTitle: "retry",
-                              mainButtonAction: mainButtonAction,
-                              secondButtonAction: secondButtonAction)
-        case 500...600:
-            return AlertModel(title: "🚧 Server Error 🚧",
-                              message: "Invalid response, check your internet conection or try again latter.",
-                              mainButtonTitle: "got it",
-                              secondButtonTitle: "retry",
-                              mainButtonAction: mainButtonAction,
-                              secondButtonAction: secondButtonAction)
-        default:
-            return AlertModel(title: "☠️ Unexpected error ☠️",
-                              message: "We are having some issues, please contact us.",
-                              mainButtonTitle: "got it",
-                              mainButtonAction: mainButtonAction)
-        }
-    }
 }
