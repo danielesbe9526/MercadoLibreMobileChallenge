@@ -56,14 +56,20 @@ public class HomeViewModel: ObservableObject {
         let diference = abs(totalInstallments - price)
         let tolerance = 0.001
         
-        let installmentsFormatted = String(format: "%.3f", installmentsAmount)
-        installmentsMessage = "\(Int(installment)) cuotas de $\(installmentsFormatted)"
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.locale = Locale.current
+        formatter.maximumFractionDigits = 3
+        
+        
+        let installmentsFormatted = formatter.string(from: NSNumber(value: installmentsAmount)) ?? "$0.00"
+        installmentsMessage = "\(Int(installment)) cuotas de \(installmentsFormatted)"
         
         if diference <= tolerance {
             showSamePrice = true
         }
         
-        return "\(installment) cuotas de $\(installmentsFormatted)"
+        return "\(Int(installment)) cuotas de \(installmentsFormatted)"
     }
     
     @MainActor
@@ -88,6 +94,7 @@ public class HomeViewModel: ObservableObject {
             if let product {
                 showSpiner = false
                 productDetail = product
+                routeToDetail()
             } else {
                 requestFails = true
             }
@@ -98,5 +105,9 @@ public class HomeViewModel: ObservableObject {
 extension HomeViewModel {
     func routeToDetail() {
         destination?.navigate(to: .productDetailView)
+    }
+    
+    func goBack() {
+        destination?.navigateBack()
     }
 }

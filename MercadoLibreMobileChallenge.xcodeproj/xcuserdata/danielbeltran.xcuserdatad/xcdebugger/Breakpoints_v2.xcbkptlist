@@ -62,10 +62,40 @@
             filePath = "MercadoLibreMobileChallenge/HomeViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
+            startingLineNumber = "84"
+            endingLineNumber = "84"
             landmarkName = "getHomeProducts()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "F303DB48-6597-4BBC-BF49-C4B95149E1BB - 5c60ba1d349fb7c7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for closure #1 () async throws -&gt; () in MercadoLibreMobileChallenge.HomeViewModel.getHomeProducts() -&gt; ()"
+                  moduleName = "MercadoLibreMobileChallenge.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Volumes/Disco%20Daniel%20Beltran/Proyectos%20Xcode/MercadoLibreMobileChallenge/MercadoLibreMobileChallenge/HomeViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "84"
+                  endingLineNumber = "84">
+               </Location>
+               <Location
+                  uuid = "F303DB48-6597-4BBC-BF49-C4B95149E1BB - 94365285c5748bc9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for closure #1 () async throws -&gt; () in MercadoLibreMobileChallenge.HomeViewModel.getHomeProducts() -&gt; ()"
+                  moduleName = "MercadoLibreMobileChallenge.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Volumes/Disco%20Daniel%20Beltran/Proyectos%20Xcode/MercadoLibreMobileChallenge/MercadoLibreMobileChallenge/HomeViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "84"
+                  endingLineNumber = "84">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -82,6 +112,36 @@
             endingLineNumber = "30"
             landmarkName = "getHomeProducts()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "56AAA184-03CD-4F15-B4B3-FD38922EB9CA - 1f40edf0d6eec320"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for MercadoLibreMobileChallenge.MLRepositoryCore.getHomeProducts() async throws -&gt; Swift.Optional&lt;Swift.Array&lt;MercadoLibreMobileChallenge.Product&gt;&gt;"
+                  moduleName = "MercadoLibreMobileChallenge.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Volumes/Disco%20Daniel%20Beltran/Proyectos%20Xcode/MercadoLibreMobileChallenge/MercadoLibreMobileChallenge/Networking/MLRepositoryType.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "30"
+                  endingLineNumber = "30">
+               </Location>
+               <Location
+                  uuid = "56AAA184-03CD-4F15-B4B3-FD38922EB9CA - c5491d73b1110f2e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for MercadoLibreMobileChallenge.MLRepositoryCore.getHomeProducts() async throws -&gt; Swift.Optional&lt;Swift.Array&lt;MercadoLibreMobileChallenge.Product&gt;&gt;"
+                  moduleName = "MercadoLibreMobileChallenge.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Volumes/Disco%20Daniel%20Beltran/Proyectos%20Xcode/MercadoLibreMobileChallenge/MercadoLibreMobileChallenge/Networking/MLRepositoryType.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "30"
+                  endingLineNumber = "30">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -114,6 +174,36 @@
             endingLineNumber = "32"
             landmarkName = "getHomeProducts()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "CA4BAA66-67F9-4672-B252-64B34694BC3E - 1f40edf0d6eec362"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for MercadoLibreMobileChallenge.MLRepositoryCore.getHomeProducts() async throws -&gt; Swift.Optional&lt;Swift.Array&lt;MercadoLibreMobileChallenge.Product&gt;&gt;"
+                  moduleName = "MercadoLibreMobileChallenge.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Volumes/Disco%20Daniel%20Beltran/Proyectos%20Xcode/MercadoLibreMobileChallenge/MercadoLibreMobileChallenge/Networking/MLRepositoryType.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "32"
+                  endingLineNumber = "32">
+               </Location>
+               <Location
+                  uuid = "CA4BAA66-67F9-4672-B252-64B34694BC3E - c5491d73b1110f6c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for MercadoLibreMobileChallenge.MLRepositoryCore.getHomeProducts() async throws -&gt; Swift.Optional&lt;Swift.Array&lt;MercadoLibreMobileChallenge.Product&gt;&gt;"
+                  moduleName = "MercadoLibreMobileChallenge.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Volumes/Disco%20Daniel%20Beltran/Proyectos%20Xcode/MercadoLibreMobileChallenge/MercadoLibreMobileChallenge/Networking/MLRepositoryType.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "32"
+                  endingLineNumber = "32">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -142,8 +232,8 @@
             filePath = "MercadoLibreMobileChallenge/Views/HomeView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "136"
-            endingLineNumber = "136"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -158,8 +248,8 @@
             filePath = "MercadoLibreMobileChallenge/Views/HomeView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "130"
-            endingLineNumber = "130"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>

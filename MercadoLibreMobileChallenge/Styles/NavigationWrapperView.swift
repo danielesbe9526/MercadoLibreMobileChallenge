@@ -16,14 +16,6 @@ struct NavigationWrapperView<Content: View>: View {
         self.destination = destination
         self.fabric = fabric
         self.content = content
-        
-        let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = UIColor(resource: .amarilloML)
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-        
-        UINavigationBar.appearance().standardAppearance = appearance
-        UINavigationBar.appearance().scrollEdgeAppearance = appearance
     }
     
     var body: some View {

@@ -21,7 +21,8 @@ struct CachedAsyncImage: View {
     var body: some View {
         Group {
             if let image = image {
-                Image(uiImage: image).resizable()
+                Image(uiImage: image)
+                    .resizable()
             } else {
                 ProgressView()
                     .onAppear {

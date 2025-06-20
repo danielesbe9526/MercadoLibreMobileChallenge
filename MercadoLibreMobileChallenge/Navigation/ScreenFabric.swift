@@ -24,7 +24,7 @@ struct ScreenFabric {
         case .homeView:
             HomeView(viewModel: homeViewModel)
         case .productDetailView:
-            EmptyView()
+            ProductDetailView(viewModel: homeViewModel)
         }
     }
 }
