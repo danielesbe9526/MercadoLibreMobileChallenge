@@ -11,6 +11,7 @@ struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
     @EnvironmentObject var colorManager: ColorManager
     @StateObject private var locationManager = LocationManager()
+    @FocusState private var isTextFieldFocused: Bool
 
     let columnsGrid = [GridItem(.adaptive(minimum: 190, maximum: 200))]
     let columnsList = [GridItem(.fixed(350))]
@@ -20,83 +21,109 @@ struct HomeView: View {
     @State private var showInList: Bool = true
     @State private var showOverlay: Bool = false
 
+    // Animations
+    @Namespace private var searchBarAnimation
+    @Namespace private var barAnimation
+    @Namespace private var arrowAnimation
+
+    
     let items = ["iPhone", "Samsung", "Pelota"]
 
     var body: some View {
         ViewWrapper(spinerRun: $viewModel.showSpiner, alertModel: $alertModel) {
             VStack {
-                HeaderView
-                    .padding(13)
-                    .background(Color(UIColor(resource: .amarilloML)))
-                    .offset(y: -5)
-
-                ScrollView {
-                    LazyVGrid(columns: showInList ? columnsList : columnsGrid ) {
-                        if let products = viewModel.homeProducts {
-                            ForEach(products) { product in
-                                if showInList {
-                                    CardVView(product: product, viewModel: viewModel)
-                                        .padding(8)
-                                        .onTapGesture {
-                                            viewModel.getDetailProduct()
-                                            viewModel.routeToDetail()
-                                        }
-                                } else {
-                                    CardHView(product: product, viewModel: viewModel)
-                                        .padding(8)
-                                        .onTapGesture {
-                                            viewModel.routeToDetail()
-                                        }
-                                }
-                            }
-                        }
-                    }
-                    .animation(.easeInOut(duration: 0.5), value: showInList)
-                }
-            }
-            .animation(.easeInOut(duration: 0.5), value: showOverlay)
-            .toolbar {
-                if !showOverlay {
-                    ToolbarItem(placement: .principal) {
-                        TextField("Buscar...", text: $searchText)
-                            .font(.system(size: 12))
-                            .padding(10)
-                            .background(Color.white)
-                            .cornerRadius(15)
-                            .padding(.horizontal, 20)
-                    }
-                    
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Image(systemName: "gearshape.fill")
-                            .foregroundColor(.black)
-                    }
-                }
-                
-            }
-            .overlay {
                 if showOverlay {
-                    Color.white
-                        .ignoresSafeArea(.all)
                     VStack {
                         HStack {
                             Button("", systemImage: "arrow.backward") {
-                                showOverlay = false
+                                withAnimation(.spring()) {
+                                    showOverlay = false
+                                    isTextFieldFocused = false
+                                }
                             }
+                            .matchedGeometryEffect(id: searchBarAnimation, in: arrowAnimation)
+                            .foregroundStyle(.font)
+                            .font(.system(size: 30))
+                            .padding(.leading, 30)
                             
                             TextField("Buscar en Mercado Libre", text: $searchText)
+                                .matchedGeometryEffect(id: searchBarAnimation, in: barAnimation)
+//                                .foregroundColor(.black)
+//                                .font(.system(size: 16))
+                                .frame(width: 350, height: 35)
+
                         }
-                        .padding()
+                        .padding(8)
                         
                         Divider()
                         
                         searchView
+                            .padding(.horizontal, 30)
                     }
+                    .background(.white)
+                } else {
+                    HStack {
+                        Button("", systemImage: "arrow.backward") {}
+                            .matchedGeometryEffect(id: searchBarAnimation, in: arrowAnimation)
+                            .hidden()
+                        
+                        TextField("Buscar...", text: $searchText)
+                            .padding(6)
+                            .background(Color.white)
+                            .cornerRadius(15)
+                            .frame(width: 300, height: 30)
+                            .matchedGeometryEffect(id: searchBarAnimation, in: barAnimation)
+                            .focused($isTextFieldFocused)
+                            .onChange(of: isTextFieldFocused) { oldValue, newValue in
+                                if newValue {
+                                    withAnimation(.spring()) {
+                                        isTextFieldFocused = false
+                                        showOverlay = true
+                                    }
+                                }
+                            }
+                            .foregroundStyle(.black)
+                        
+                        Button("", systemImage: "gearshape.fill") {}
+                        .foregroundStyle(.black)
+                    }
+                    
+                    HeaderView
+                        .padding(13)
+                        .background(Color(UIColor(resource: .amarilloML)))
+                        .offset(y: -5)
+
+                    ScrollView {
+                        LazyVGrid(columns: showInList ? columnsList : columnsGrid ) {
+                            if let products = viewModel.homeProducts {
+                                ForEach(products) { product in
+                                    if showInList {
+                                        CardVView(product: product, viewModel: viewModel)
+                                            .padding(8)
+                                            .onTapGesture {
+                                                viewModel.getDetailProduct()
+                                                viewModel.routeToDetail()
+                                            }
+                                    } else {
+                                        CardHView(product: product, viewModel: viewModel)
+                                            .padding(8)
+                                            .onTapGesture {
+                                                viewModel.routeToDetail()
+                                            }
+                                    }
+                                }
+                            }
+                        }
+                        .animation(.easeInOut(duration: 0.5), value: showInList)
+                    }
+                    .background(.white)
                 }
             }
             .onAppear {
                 viewModel.getHomeProducts()
             }
         }
+        .background(Color(UIColor(resource: .amarilloML)))
         .onChange(of: locationManager.errorMessage) { oldValue, newValue in
             if newValue != nil {
                 alertModel = AlertModel(title: "🚧 Error obteniendo ubicacion 🚧",
@@ -105,14 +132,11 @@ struct HomeView: View {
             }
         }
         .onChange(of: viewModel.requestFails) { oldValue, newValue in
-            if newValue {
-                alertModel = AlertModel(title: "🛜 Error obteniendo datos 🛜",
-                                        message: "Por favor verifique su conexion.",
-                                        mainButtonTitle: "got it")
-            }
-        }
-        .onChange(of: searchText) { oldValue, newValue in
-            showOverlay = !newValue.isEmpty
+//            if newValue {
+//                alertModel = AlertModel(title: "🛜 Error obteniendo datos 🛜",
+//                                        message: "Por favor verifique su conexion.",
+//                                        mainButtonTitle: "got it")
+//            }
         }
     }
     
@@ -128,12 +152,16 @@ struct HomeView: View {
                     Text("\(placemark.compactAddress ?? "Desconocido")")
                         .fontWeight(.thin)
                         .font(.system(size: 12))
+                        .foregroundStyle(.black)
                 }
                
                 Image(systemName: "chevron.right")
                     .fontWeight(.medium)
                     .font(.system(size: 15))
+                    .foregroundStyle(.black)
+
             }
+            .foregroundStyle(.black)
             .padding(5)
             
             Spacer()
@@ -158,24 +186,26 @@ struct HomeView: View {
     
     @ViewBuilder
     var searchView: some View {
-
-        VStack(spacing: 0) {
-            List {
-                ForEach(items, id: \.self) { item in
-                    HStack {
-                        Image(systemName: "clock")
-                            .foregroundColor(.font.opacity(0.6))
-                        Text(item)
-                            .foregroundColor(.font.opacity(0.6))
-                        Spacer()
-                        Image(systemName: "arrow.up.left")
-                            .foregroundColor(.font.opacity(0.6))
-                    }
+        List {
+            ForEach(items, id: \.self) { item in
+                HStack(spacing: 30) {
+                    Image(systemName: "clock")
+                        .foregroundColor(.font.opacity(0.6))
+                    
+                    Text(item)
+                        .foregroundColor(.font.opacity(0.6))
+                    
+                    Spacer()
+                    
+                    Image(systemName: "arrow.up.left")
+                        .foregroundColor(.font.opacity(0.6))
                 }
+                .listRowBackground(Color.white)
+                .listRowSeparator(.hidden)
             }
-            .listStyle(PlainListStyle())
         }
-        .ignoresSafeArea(.all)
+        .background(.white)
+        .listStyle(PlainListStyle())
     }
 }
 

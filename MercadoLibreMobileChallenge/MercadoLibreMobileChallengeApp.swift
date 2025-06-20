@@ -22,6 +22,11 @@ struct MercadoLibreMobileChallengeApp: App {
         viewModel = HomeViewModel(destination: destination, apiInteractor: MLRepositoryCore(apiInteractor: session))
         
         fabric = ScreenFabric(homeViewModel: viewModel)
+        
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = windowScene.windows.first {
+            window.overrideUserInterfaceStyle = .light
+        }
     }
     
     var body: some Scene {
