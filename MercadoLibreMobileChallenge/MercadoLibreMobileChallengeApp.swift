@@ -14,7 +14,7 @@ struct MercadoLibreMobileChallengeApp: App {
     var destination: DestinationViewModel
     let viewModel: HomeViewModel
     
-    @StateObject private var colorManager = ColorManager()
+    @StateObject private var colorManager = ThemeManager()
     
     init() {
         session = APIInteractor(session: Session())

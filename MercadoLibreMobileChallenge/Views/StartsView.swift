@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct StartsView: View {
-    @EnvironmentObject var colorManager: ColorManager
+    @EnvironmentObject var colorManager: ThemeManager
 
     let rating: Double
     let numberOfVotes: Int
@@ -48,5 +48,5 @@ struct StartsView: View {
 
 #Preview {
     StartsView(rating: 3.5, numberOfVotes: 12314)
-        .environmentObject(ColorManager())
+        .environmentObject(ThemeManager())
 }

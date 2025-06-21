@@ -7,18 +7,32 @@
 
 import Foundation
 
+/// Protocolo `MLRepositoryType` que define métodos para obtener productos y detalles de productos.
 public protocol MLRepositoryType {
+    
+    /// Obtiene los productos de inicio.
+    /// - Returns: Una lista de productos o `nil` si ocurre un error.
     func getHomeProducts() async throws -> Products?
+    
+    /// Obtiene los detalles de un producto.
+    /// - Returns: Detalles del producto o `nil` si ocurre un error.
     func getProductDetail() async throws -> ProductDetail?
 }
 
+/// `MLRepositoryCore` es una estructura que implementa `MLRepositoryType` para manejar datos de productos.
 public struct MLRepositoryCore: MLRepositoryType {
+    
+    /// Interactor de API utilizado para cargar datos.
     weak var apiInteractor: APIInteractor?
     
+    /// Inicializador para `MLRepositoryCore`.
+    /// - Parameter apiInteractor: Interactor de API opcional para manejar solicitudes.
     public init(apiInteractor: APIInteractor? = nil) {
         self.apiInteractor = apiInteractor
     }
     
+    /// Obtiene los productos de inicio.
+    /// - Returns: Una lista de productos o `nil` si ocurre un error.
     public func getHomeProducts() async throws -> Products? {
         let request = RepositoryRoute.homeProducts
         let result = try await apiInteractor?.loadLocalData(with: request, for: Products.self)
@@ -33,6 +47,8 @@ public struct MLRepositoryCore: MLRepositoryType {
         }
     }
     
+    /// Obtiene los detalles de un producto.
+    /// - Returns: Detalles del producto o `nil` si ocurre un error.
     public func getProductDetail() async throws -> ProductDetail? {
         let request = RepositoryRoute.productDetail
         let result = try await apiInteractor?.loadLocalData(with: request, for: ProductDetail.self)
@@ -48,12 +64,15 @@ public struct MLRepositoryCore: MLRepositoryType {
     }
 }
 
+/// `RepositoryRoute` enum que define las rutas para cargar datos locales.
 public enum RepositoryRoute {
     case homeProducts
     case productDetail
 }
 
 public extension RepositoryRoute {
+    
+    /// Nombre del archivo para la ruta.
     var name: String {
         switch self {
         case .homeProducts:
@@ -63,6 +82,7 @@ public extension RepositoryRoute {
         }
     }
     
+    /// Extensión del archivo para la ruta.
     var fileExtension: String {
         switch self {
         case .homeProducts, .productDetail:
@@ -70,4 +90,3 @@ public extension RepositoryRoute {
         }
     }
 }
-

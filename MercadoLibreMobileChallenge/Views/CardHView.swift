@@ -11,9 +11,10 @@ struct CardHView: View {
     var product: Product
     @ObservedObject var viewModel: HomeViewModel
     @State var installmentsSTR: String = ""
+    @EnvironmentObject var colorManager: ThemeManager
 
     var body: some View {
-        VStack(spacing: 15) {
+        VStack(spacing: 10) {
             productImage
             Spacer()
             productDescription
@@ -75,6 +76,7 @@ struct CardHView: View {
             if viewModel.showSamePrice {
                 Text("Mismo precio en \(installmentsSTR)")
                     .textStyle(.green12)
+                    .lineLimit(2)
 
             } else if product.installments != nil {
                 Text(viewModel.installmentsMessage)
@@ -93,11 +95,11 @@ struct CardHView: View {
         VStack(alignment: .leading) {
             if let discountedPrice = product.discountedPrice {
                 PriceView(value: discountedPrice, size: 14)
-                    .foregroundStyle(.gray.opacity(0.7))
+                    .foregroundStyle(colorManager.textColor.opacity(0.3))
                 
                 HStack {
                     PriceView(value: originalPrice, size: 18)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(colorManager.textColor)
 
                     let discountPercentage = String(format: "%.1f", product.discountPercentage ?? 0)
                     Text("\(discountPercentage)%OFF")
@@ -160,6 +162,6 @@ struct CardHView_Previews: PreviewProvider {
         NavigationWrapperView(destination: DestinationViewModel(), fabric: ScreenFabric(homeViewModel: viewModel)) {
                 HomeView(viewModel: viewModel)
         }
-        .environmentObject(ColorManager())
+        .environmentObject(ThemeManager())
     }
 }

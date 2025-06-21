@@ -7,9 +7,13 @@
 
 import SwiftUI
 
+/// `Alert` es una vista que muestra una alerta personalizada con un título y animaciones para su aparición y desaparición.
 public struct Alert: View {
+    
+    /// Estado para controlar la visibilidad de la vista de alerta.
     @State private var showView: Bool
-
+    
+    /// Modelo que contiene la información para la alerta.
     var model: AlertModel
     
     public var body: some View {
@@ -29,27 +33,34 @@ public struct Alert: View {
                         withAnimation {
                             self.showView = false
                         }
-                    }.onAppear(perform: {
+                    }
+                    .onAppear {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                             withAnimation {
                                 self.showView = false
                             }
                         }
-                    })
+                    }
             }
-        }.offset(y: -UIScreen.main.bounds.height * 0.35)
+        }
+        .offset(y: -UIScreen.main.bounds.height * 0.35)
     }
     
+    /// Inicializador para `Alert`.
+    /// - Parameters:
+    ///   - showView: Estado inicial de visibilidad de la alerta.
+    ///   - model: Modelo que contiene el título de la alerta y otra información.
     public init(showView: Bool, model: AlertModel) {
         self.showView = showView
         self.model = model
     }
     
+    /// Cuerpo de la alerta que incluye el título y el icono.
     public var alertBody: some View {
-        return Label(model.title, systemImage: "antenna.radiowaves.left.and.right.slash")
+        Label(model.title, systemImage: "antenna.radiowaves.left.and.right.slash")
             .fontWeight(.bold)
             .padding()
-            .background(.red)
+            .background(Color.red)
             .foregroundColor(.white)
             .cornerRadius(8)
     }

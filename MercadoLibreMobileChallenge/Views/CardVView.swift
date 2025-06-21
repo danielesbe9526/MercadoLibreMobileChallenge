@@ -11,7 +11,8 @@ struct CardVView: View {
     var product: Product
     @ObservedObject var viewModel: HomeViewModel
     @State var installmentsSTR: String = ""
-    
+    @EnvironmentObject var colorManager: ThemeManager
+
     var body: some View {
         HStack(spacing: 5) {
             productImage
@@ -54,7 +55,7 @@ struct CardVView: View {
                 
                 if let name = product.name {
                     Text(product.isAppleSeller ? name + " - " + "Distribuidor Autorizado" : name)
-                        .foregroundStyle(.font)
+                        .foregroundStyle(colorManager.fontColot)
                         .font(.system(size: 16))
                 }
             }
@@ -82,11 +83,11 @@ struct CardVView: View {
                 VStack(alignment: .leading) {
                     if let discountedPrice = product.discountedPrice {
                         PriceView(value: discountedPrice, size: 14)
-                            .foregroundStyle(.gray.opacity(0.6))
+                            .foregroundStyle(colorManager.textColor.opacity(0.2))
                         
                         HStack {
                             PriceView(value: originalPrice, size: 20)
-                                .foregroundStyle(.black)
+                                .foregroundStyle(colorManager.textColor)
 
                             let discountPercentage = String(format: "%.1f", product.discountPercentage ?? 0)
                             Text("\(discountPercentage)%OFF")
@@ -94,7 +95,7 @@ struct CardVView: View {
                         }
                     } else {
                         PriceView(value: originalPrice, size: 18)
-                            .foregroundStyle(.black)
+                            .foregroundStyle(colorManager.textColor)
                     }
                 }
             }
@@ -168,6 +169,6 @@ struct CardVView_Previews: PreviewProvider {
         NavigationWrapperView(destination: DestinationViewModel(), fabric: ScreenFabric(homeViewModel: viewModel)) {
                 HomeView(viewModel: viewModel)
         }
-        .environmentObject(ColorManager())
+        .environmentObject(ThemeManager())
     }
 }

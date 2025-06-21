@@ -8,92 +8,78 @@
 import SwiftUI
 
 public struct ProductDetailView: View {
-    @EnvironmentObject var colorManager: ColorManager
+    @EnvironmentObject var colorManager: ThemeManager
     @ObservedObject var viewModel: HomeViewModel
-    @StateObject private var locationManager = LocationManager()
-    @FocusState private var isTextFieldFocused: Bool
    
-    @State private var searchText = ""
     @State private var product: ProductDetail?
     @State var installmentsSTR: String = ""
-    @State private var showOverlay: Bool = false
     @State private var selectedImageIndex = 0
     @State private var isFavorite = false
-
-    @Namespace private var searchBarAnimation
-    @Namespace private var barAnimation
-    @Namespace private var arrowAnimation
     
     @State var imageUrls: [String] = []
     
-    let items = ["iPhone", "Samsung", "Pelota"]
-
     public var body: some View {
-        ViewWrapper {
+        ViewWrapper(showBackButton: true, buttonAction: {
+            viewModel.goBack()
+        }) {
             VStack {
-                if showOverlay {
-                    searchList
-                } else {
-                    ScrollView {
-                        VStack {
-                            HeaderView
-                            
-                            VStack(alignment: .leading, spacing: 15) {
-                                HStack {
-                                    Text("Nuevo | +100 vendidos")
-                                        .font(.system(size: 12))
-                                        .foregroundStyle(.font.opacity(0.8))
-                                    
-                                    Spacer()
-                                    
-                                    if let rating = product?.rating {
-                                        StartsView(rating: rating, numberOfVotes: product?.numReviews ?? 0)
-                                    }
-                                }
-                                
-                                if let name = product?.name {
-                                    let message = product?.isAppleSeller ?? false ? "\(name) - Distribuidor Autorizado" : name
-                                    Text(message)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .lineLimit(nil)
-                                        .layoutPriority(1)
-                                        .foregroundStyle(.font)
-                                        .font(.system(size: 18))
-                                        
-                                }
-                                
-                                productImage
+                ScrollView {
+                    VStack {
+                        VStack(alignment: .leading, spacing: 15) {
+                            HStack {
+                                Text("Nuevo | +100 vendidos")
+                                    .font(.system(size: 12))
+                                    .foregroundStyle(colorManager.fontColot.opacity(0.8))
                                 
                                 Spacer()
                                 
-                                productDescription
+                                if let rating = product?.rating {
+                                    StartsView(rating: rating, numberOfVotes: product?.numReviews ?? 0)
+                                }
                             }
-                            .padding(.vertical, 8)
-                            .padding(.horizontal, 16)
+                            
+                            if let name = product?.name {
+                                let message = product?.isAppleSeller ?? false ? "\(name) - Distribuidor Autorizado" : name
+                                Text(message)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .lineLimit(nil)
+                                    .layoutPriority(1)
+                                    .foregroundStyle(colorManager.fontColot)
+                                    .font(.system(size: 18))
+                                
+                            }
+                            
+                            productImage
+                            
+                            Spacer()
+                            
+                            productDescription
                         }
-                        .background(.white)
-
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 16)
                     }
-                }
-            }
-            .background(Color(UIColor(resource: .amarilloML)))
-            .onAppear {
-                if let productDetail = viewModel.productDetail {
-                    product = productDetail
-                }
-                
-                if let productImages = product?.images {
-                    imageUrls = productImages
-                }
-                
-                if let installments = product?.installments?.value,
-                   let price = product?.originalPrice {
-                    installmentsSTR = viewModel.calculatePrice(installments: installments, price: price)
+                    .background(colorManager.backgroundColor)
                 }
             }
         }
+        .background(colorManager.mainColor)
+        .onAppear {
+            if let productDetail = viewModel.productDetail {
+                product = productDetail
+            }
+            
+            if let productImages = product?.images {
+                imageUrls = productImages
+            }
+            
+            if let installments = product?.installments?.value,
+               let price = product?.originalPrice {
+                installmentsSTR = viewModel.calculatePrice(installments: installments, price: price)
+            }
+            
+        }
         .navigationBarBackButtonHidden(true)
-        .background(Color(UIColor(resource: .amarilloML)))
+        .background(colorManager.mainColor)
 
     }
     
@@ -115,17 +101,17 @@ public struct ProductDetailView: View {
 
             if viewModel.showSamePrice {
                 Text("Mismo precio en \(installmentsSTR)")
-                    .foregroundStyle(.verdeML)
+                    .foregroundStyle(colorManager.callToActionColor)
                     .font(.system(size: 14))
             } else if product?.installments != nil {
                 Text(viewModel.installmentsMessage)
                     .font(.system(size: 12))
-                
+                    .foregroundStyle(colorManager.textColor)
             }
             
             if let alternative = product?.installments?.alternative {
                 Text("o mismo precio en \(alternative)")
-                    .foregroundStyle(.font)
+                    .foregroundStyle(colorManager.fontColot)
                     .font(.system(size: 14))
             }
 
@@ -136,7 +122,7 @@ public struct ProductDetailView: View {
             
             if let shipping = product?.shipping {
                 Text(shipping)
-                    .foregroundStyle(.verdeML)
+                    .foregroundStyle(colorManager.callToActionColor)
                     .font(.system(size: 14))
                     .padding(.top, 15)
             }
@@ -148,12 +134,12 @@ public struct ProductDetailView: View {
             
             VStack(alignment: .leading) {
                 Text("Retira gratis a partir del sabado en correos y otros puntos")
-                    .foregroundStyle(.verdeML)
+                    .foregroundStyle(colorManager.callToActionColor)
                     .font(.system(size: 14))
                     .padding(.top, 15)
                 
                 Text("Tienes un punto de entrega a 450m")
-                    .foregroundStyle(.font.opacity(0.4))
+                    .foregroundStyle(colorManager.fontColot.opacity(0.4))
                     .font(.system(size: 12))
                     .padding(.vertical, 3)
                 
@@ -162,7 +148,7 @@ public struct ProductDetailView: View {
             }
             
             Text("Stock disponible")
-                .foregroundStyle(.font)
+                .foregroundStyle(colorManager.fontColot)
                 .font(.system(size: 14))
                 .padding(.vertical,15)
             
@@ -170,10 +156,10 @@ public struct ProductDetailView: View {
             Group {
                 HStack {
                     Text("Cantidad: 1")
-                        .foregroundStyle(.font)
+                        .foregroundStyle(colorManager.fontColot)
                     
                     Text("(+10 disponibles)")
-                        .foregroundStyle(.black.opacity(0.1))
+                        .foregroundStyle(colorManager.textColor.opacity(0.1))
                     
                     Spacer()
                     
@@ -193,7 +179,7 @@ public struct ProductDetailView: View {
                 } label: {
                     Text("Comprar ahora")
                         .fontWeight(.light)
-                        .foregroundStyle(.white)
+                        .foregroundStyle(colorManager.backgroundColor)
                         .padding(.vertical, 15)
                 }
                 .frame(maxWidth: .infinity)
@@ -219,14 +205,13 @@ public struct ProductDetailView: View {
                 VStack(alignment: .leading, spacing: 10) {
                     Text("Descripcion")
                         .font(.system(size: 18, weight: .medium))
-                        .foregroundStyle(.black)
+                        .foregroundStyle(colorManager.textColor)
                     
                     Text(description)
                         .font(.system(size: 12))
-                        .foregroundStyle(.font)
+                        .foregroundStyle(colorManager.fontColot)
                 }
             }
-            
             
             Spacer()
         }
@@ -238,145 +223,18 @@ public struct ProductDetailView: View {
             if let discountedPrice = product?.discountedPrice {
                 HStack {
                     PriceView(value: discountedPrice, size: 26)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(colorManager.textColor)
                     
                     let discountPercentage = String(format: "%.1f", product?.discountPercentage ?? 0)
                     Text("\(discountPercentage)%OFF")
                         .font(.system(size: 18))
-                        .foregroundStyle(.verdeML)
+                        .foregroundStyle(colorManager.callToActionColor)
                 }
             } else {
                 PriceView(value: originalPrice, size: 18)
-                    .foregroundStyle(.black)
+                    .foregroundStyle(colorManager.textColor)
             }
         }
-    }
-    
-    @ViewBuilder
-    var HeaderView: some View {
-        VStack(spacing: 10) {
-            /// Search Bar
-            HStack {
-                Button("", systemImage: "arrow.backward") {
-                    viewModel.goBack()
-                }
-                .foregroundStyle(.black.opacity(0.6))
-                .font(.system(size: 30))
-                .matchedGeometryEffect(id: arrowAnimation, in: barAnimation)
-                .padding(.leading, 16)
-
-                
-                TextField("", text: $searchText)
-                    .placeholder(when: searchText.isEmpty) {
-                        Text("Buscar en Mercado Libre")
-                            .foregroundStyle(.font.opacity(0.5))
-                            .font(.system(size: 14))
-                    }
-                    .padding(6)
-                    .background(Color.white)
-                    .cornerRadius(15)
-                    .frame(width: 300, height: 30)
-                    .matchedGeometryEffect(id: searchBarAnimation, in: barAnimation)
-                    .focused($isTextFieldFocused)
-                    .onChange(of: isTextFieldFocused) { oldValue, newValue in
-                        if newValue {
-                            withAnimation(.spring()) {
-                                isTextFieldFocused = false
-                                showOverlay = true
-                            }
-                        }
-                    }
-                    .foregroundStyle(.black)
-                
-                Spacer()
-            }
-            .padding(.top, 5)
-            
-            /// Location
-           
-            HStack(spacing: 10) {
-                Image(systemName: "mappin")
-                    .fontWeight(.thin)
-                    .font(.system(size: 20))
-                
-                if let placemark = locationManager.placemark {
-                    Text("\(placemark.compactAddress ?? "Desconocido")")
-                        .fontWeight(.thin)
-                        .font(.system(size: 12))
-                        .foregroundStyle(.black)
-                }
-                
-                Image(systemName: "chevron.right")
-                    .fontWeight(.medium)
-                    .font(.system(size: 15))
-                
-                Spacer()
-                
-            }
-            .foregroundStyle(.black)
-            .padding(5)
-        }
-        .background(Color(UIColor(resource: .amarilloML)))
-    }
-    
-    @ViewBuilder
-    var searchList: some View {
-        VStack {
-            HStack {
-                Button("", systemImage: "arrow.backward") {
-                    withAnimation(.spring()) {
-                        showOverlay = false
-                        isTextFieldFocused = false
-                    }
-                }
-                .matchedGeometryEffect(id: searchBarAnimation, in: arrowAnimation)
-                .foregroundStyle(.font)
-                .font(.system(size: 30))
-                .padding(.leading, 30)
-                
-                TextField("", text: $searchText)
-                    .placeholder(when: searchText.isEmpty) {
-                        Text("Buscar en Mercado Libre")
-                            .foregroundStyle(.font.opacity(0.5))
-                    }
-                    .matchedGeometryEffect(id: searchBarAnimation, in: barAnimation)
-                    .foregroundColor(.black)
-                    .font(.system(size: 16))
-                    .frame(width: 350, height: 35)
-
-            }
-            .padding(8)
-            
-            Divider()
-            
-            searchView
-                .padding(.horizontal, 30)
-        }
-        .background(.white)
-    }
-    
-    @ViewBuilder
-    var searchView: some View {
-        List {
-            ForEach(items, id: \.self) { item in
-                HStack(spacing: 30) {
-                    Image(systemName: "clock")
-                        .foregroundColor(.font.opacity(0.6))
-                    
-                    Text(item)
-                        .foregroundColor(.font.opacity(0.6))
-                    
-                    Spacer()
-                    
-                    Image(systemName: "arrow.up.left")
-                        .foregroundColor(.font.opacity(0.6))
-                }
-                .listRowBackground(Color.white)
-                .listRowSeparator(.hidden)
-            }
-        }
-        .background(.white)
-        .listStyle(PlainListStyle())
     }
     
     @ViewBuilder
@@ -389,7 +247,7 @@ public struct ProductDetailView: View {
                     .padding(.horizontal, 10)
                     .font(.system(size: 12, weight: .medium))
                     .background(.gray.opacity(0.1))
-                    .foregroundStyle(.font)
+                    .foregroundStyle(colorManager.fontColot)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                 
                 Spacer()
@@ -397,7 +255,6 @@ public struct ProductDetailView: View {
                     withAnimation(.snappy) {
                         isFavorite.toggle()
                     }
-                    
                 }) {
                     Image(systemName: isFavorite ? "heart.fill" : "heart")
                         .resizable()
@@ -498,7 +355,7 @@ struct ProductDetailView_Previews: PreviewProvider {
                     viewModel: HomeViewModel()
                 )
         }
-        .environmentObject(ColorManager())
+        .environmentObject(ThemeManager())
     }
 }
 

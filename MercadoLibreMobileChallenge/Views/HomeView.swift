@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
-    @EnvironmentObject var colorManager: ColorManager
+    @EnvironmentObject var colorManager: ThemeManager
     @StateObject private var locationManager = LocationManager()
     @FocusState private var isTextFieldFocused: Bool
 
@@ -17,84 +17,42 @@ struct HomeView: View {
     let columnsList = [GridItem(.fixed(350))]
     
     @State private var alertModel: AlertModel?
-    @State private var searchText = ""
     @State private var showInList: Bool = true
-    @State private var showOverlay: Bool = false
-    
-    @State private var selectedColor: Color = .blue
-    @State private var isColorPickerPresented = false
-    
-    let colors: [Color] = [.red, .green, .blue, .yellow, .orange]
-
-    // Animations
-    @Namespace private var searchBarAnimation
-    @Namespace private var barAnimation
-    @Namespace private var arrowAnimation
-
-    
-    let items = ["iPhone", "Samsung", "Pelota"]
-
+        
     var body: some View {
-        ViewWrapper(spinerRun: $viewModel.showSpiner, alertModel: $alertModel) {
+        ViewWrapper(spinerRun: $viewModel.showSpiner, alertModel: $alertModel, showInList: $showInList, otherThemeTapped: {
+            viewModel.routeToDeveloper()
+        }) {
             VStack {
-                if showOverlay {
-                    searchList
-                } else {
-                    HeaderView
-                        .background(Color(UIColor(resource: .amarilloML)))
-                        .padding(5)
-                    
-                    if isColorPickerPresented {
-                        HStack {
-                            ForEach(colors, id: \.self) { color in
-                                Button(action: {
-                                    selectedColor = color
-                                    colorManager.primaryColor = selectedColor
-                                    isColorPickerPresented = false
-                                }) {
-                                    Circle()
-                                        .fill(color)
-                                        .frame(width: 40, height: 40)
-                                        .overlay(
-                                            Circle()
-                                                .stroke(selectedColor == color ? Color.black : Color.clear, lineWidth: 2)
-                                        )
-                                }
-                                .padding(4)
-                            }
-                        }
-                    }
-                    
-                    ScrollView {
-                        LazyVGrid(columns: showInList ? columnsList : columnsGrid ) {
-                            if let products = viewModel.homeProducts {
-                                ForEach(products) { product in
-                                    if showInList {
-                                        CardVView(product: product, viewModel: viewModel)
-                                            .padding(.top, 16)
-                                            .onTapGesture {
-                                                viewModel.getDetailProduct()
-                                            }
-                                    } else {
-                                        CardHView(product: product, viewModel: viewModel)
-                                            .padding(.top, 16)
-                                            .onTapGesture {
-                                                viewModel.getDetailProduct()
-                                            }
-                                    }
+                ScrollView {
+                    LazyVGrid(columns: showInList ? columnsList : columnsGrid ) {
+                        if let products = viewModel.homeProducts {
+                            ForEach(products) { product in
+                                if showInList {
+                                    CardVView(product: product, viewModel: viewModel)
+                                        .padding(.top, 16)
+                                        .onTapGesture {
+                                            viewModel.getDetailProduct()
+                                        }
+                                } else {
+                                    CardHView(product: product, viewModel: viewModel)
+                                        .padding(.top, 16)
+                                        .onTapGesture {
+                                            viewModel.getDetailProduct()
+                                        }
                                 }
                             }
                         }
-                        .animation(.easeInOut(duration: 0.5), value: showInList)
                     }
-                    .background(.white)
+                    .animation(.easeInOut(duration: 0.5), value: showInList)
                 }
+                .background(colorManager.backgroundColor)
             }
             .onAppear {
                 viewModel.getHomeProducts()
             }
         }
-        .background(Color(UIColor(resource: .amarilloML)))
+        .background(colorManager.mainColor)
         .onChange(of: locationManager.errorMessage) { oldValue, newValue in
             if newValue != nil {
                 alertModel = AlertModel(title: "🚧 Error obteniendo ubicacion 🚧",
@@ -109,149 +67,6 @@ struct HomeView: View {
 //                                        mainButtonTitle: "got it")
 //            }
         }
-    }
-    
-    @ViewBuilder
-    var HeaderView: some View {
-        VStack(spacing: 10) {
-            /// Search Bar
-            HStack {
-                TextField("", text: $searchText)
-                    .placeholder(when: searchText.isEmpty) {
-                        Text("Buscar...")
-                            .foregroundStyle(.font.opacity(0.5))
-                    }
-                    .padding(6)
-                    .background(Color.white)
-                    .cornerRadius(15)
-                    .frame(width: 300, height: 30)
-                    .matchedGeometryEffect(id: searchBarAnimation, in: barAnimation)
-                    .focused($isTextFieldFocused)
-                    .onChange(of: isTextFieldFocused) { oldValue, newValue in
-                        if newValue {
-                            withAnimation(.spring()) {
-                                isTextFieldFocused = false
-                                showOverlay = true
-                            }
-                        }
-                    }
-                    .foregroundStyle(.black)
-                
-               
-                
-                Button("", systemImage: "gearshape.fill") {
-                    isColorPickerPresented.toggle()
-                }
-                .foregroundStyle(.black)
-            }
-            /// Location
-            HStack {
-                HStack(spacing: 10) {
-                    Image(systemName: "mappin")
-                        .fontWeight(.thin)
-                        .font(.system(size: 20))
-                    
-                    if let placemark = locationManager.placemark {
-                        Text("\(placemark.compactAddress ?? "Desconocido")")
-                            .fontWeight(.thin)
-                            .font(.system(size: 12))
-                            .foregroundStyle(.black)
-                    }
-                   
-                    Image(systemName: "chevron.right")
-                        .fontWeight(.medium)
-                        .font(.system(size: 15))
-                        .foregroundStyle(.black)
-
-                }
-                .foregroundStyle(.black)
-                .padding(.horizontal, 5)
-                
-                Spacer()
-                
-                HStack {
-                    Button("", systemImage: "square.grid.2x2") {
-                        showInList = false
-                    }
-                    .fontWeight(.bold)
-                    .foregroundStyle(showInList ? .black : colorManager.primaryColor)
-                    .font(.system(size: 20))
-                    
-                    Button("", systemImage: "list.bullet") {
-                        showInList = true
-                    }
-                    .fontWeight(.bold )
-                    .foregroundStyle(showInList ? colorManager.primaryColor : .black)
-                    .font(.system(size: 20))
-                }
-            }
-        }
-    }
-    
-    @ViewBuilder
-    var searchView: some View {
-        List {
-            ForEach(items, id: \.self) { item in
-                HStack(spacing: 30) {
-                    Image(systemName: "clock")
-                        .foregroundColor(.font.opacity(0.6))
-                    
-                    Text(item)
-                        .foregroundColor(.font.opacity(0.6))
-                    
-                    Spacer()
-                    
-                    Image(systemName: "arrow.up.left")
-                        .foregroundColor(.font.opacity(0.6))
-                }
-                .listRowBackground(Color.white)
-                .listRowSeparator(.hidden)
-                .onTapGesture {
-                    withAnimation(.easeOut) {
-                        showOverlay = false
-                        isTextFieldFocused = false
-                    }
-                }
-            }
-        }
-        .background(.white)
-        .listStyle(PlainListStyle())
-    }
-    
-    @ViewBuilder
-    var searchList: some View {
-        VStack {
-            HStack {
-                Button("", systemImage: "arrow.backward") {
-                    withAnimation(.spring()) {
-                        showOverlay = false
-                        isTextFieldFocused = false
-                    }
-                }
-                .matchedGeometryEffect(id: searchBarAnimation, in: arrowAnimation)
-                .foregroundStyle(.font)
-                .font(.system(size: 30))
-                .padding(.leading, 30)
-                
-                TextField("", text: $searchText)
-                    .placeholder(when: searchText.isEmpty) {
-                        Text("Buscar en Mercado Libre")
-                            .foregroundStyle(.font.opacity(0.5))
-                    }
-                    .matchedGeometryEffect(id: searchBarAnimation, in: barAnimation)
-                    .foregroundColor(.black)
-                    .font(.system(size: 16))
-                    .frame(width: 350, height: 35)
-
-            }
-            .padding(8)
-            
-            Divider()
-            
-            searchView
-                .padding(.horizontal, 30)
-        }
-        .background(.white)
     }
 }
 
@@ -306,6 +121,6 @@ struct HomeView_Previews: PreviewProvider {
         NavigationWrapperView(destination: DestinationViewModel(), fabric: ScreenFabric(homeViewModel: viewModel)) {
                 HomeView(viewModel: viewModel)
         }
-        .environmentObject(ColorManager())
+        .environmentObject(ThemeManager())
     }
 }

@@ -7,37 +7,62 @@
 
 import Foundation
 
+/// `HomeViewModel` es una clase que gestiona la lógica de negocio para la vista principal.
 @MainActor
 public class HomeViewModel: ObservableObject {
+    
+    /// ViewModel de destino para manejar la navegación.
     var destination: DestinationViewModel?
+    
+    /// Interactor de API para manejar las solicitudes de datos.
     private let apiInteractor: MLRepositoryType?
+    
+    /// Mensaje sobre las cuotas.
     var installmentsMessage: String = ""
     
+    /// Indica si se debe mostrar el spinner de carga.
     @Published var showSpiner = false
+    
+    /// Indica si la solicitud de datos ha fallado.
     @Published var requestFails = false
+    
+    /// Indica si el precio es el mismo.
     @Published var showSamePrice = false
+    
+    /// Productos obtenidos para la vista principal.
     @Published var homeProducts: Products? = nil
+    
+    /// Detalles del producto actual.
     @Published var productDetail: ProductDetail? = nil
     
+    /// Inicializador principal para `HomeViewModel`.
+    /// - Parameters:
+    ///   - destination: ViewModel de destino opcional.
+    ///   - apiInteractor: Interactor de API opcional.
     public init(destination: DestinationViewModel? = nil, apiInteractor: MLRepositoryType? = nil) {
         self.destination = destination
         self.apiInteractor = apiInteractor
     }
     
-    // Preview Init
+    /// Inicializador para vista previa.
+    /// - Parameter homeProducts: Productos para inicializar.
     public init(homeProducts: Products) {
         self.homeProducts = homeProducts
         self.destination = DestinationViewModel()
         self.apiInteractor = MLRepositoryCore()
     }
     
+    /// Calcula el precio total basado en las cuotas.
+    /// - Parameters:
+    ///   - installments: Texto de cuotas.
+    ///   - price: Precio total.
+    /// - Returns: Texto con el formato de cuotas.
     func calculatePrice(installments: String, price: Double) -> String {
         let components = installments.components(separatedBy: "de")
         guard components.count == 2 else {
             return "Formato inválido"
         }
         
-        // number of installments
         let installmentsStr = components[0].trimmingCharacters(in: .whitespaces)
         let parts = installmentsStr.components(separatedBy: " ")
         
@@ -45,14 +70,12 @@ public class HomeViewModel: ObservableObject {
             return "Número de cuotas inválido"
         }
         
-        // amount of installments
         let amountStr = components[1].trimmingCharacters(in: .whitespaces)
         guard let installmentsAmount = Double(amountStr) else {
             return "Monto por cuota inválido"
         }
         
         let totalInstallments = installment * installmentsAmount
-        
         let diference = abs(totalInstallments - price)
         let tolerance = 0.001
         
@@ -60,7 +83,6 @@ public class HomeViewModel: ObservableObject {
         formatter.numberStyle = .currency
         formatter.locale = Locale.current
         formatter.maximumFractionDigits = 3
-        
         
         let installmentsFormatted = formatter.string(from: NSNumber(value: installmentsAmount)) ?? "$0.00"
         installmentsMessage = "\(Int(installment)) cuotas de \(installmentsFormatted)"
@@ -72,6 +94,7 @@ public class HomeViewModel: ObservableObject {
         return "\(Int(installment)) cuotas de \(installmentsFormatted)"
     }
     
+    /// Obtiene los productos para la vista principal.
     @MainActor
     func getHomeProducts() {
         Task {
@@ -86,6 +109,7 @@ public class HomeViewModel: ObservableObject {
         }
     }
     
+    /// Obtiene los detalles del producto seleccionado.
     @MainActor
     func getDetailProduct() {
         Task {
@@ -103,11 +127,19 @@ public class HomeViewModel: ObservableObject {
 }
 
 extension HomeViewModel {
+    
+    /// Navega a la vista de detalles del producto.
     func routeToDetail() {
         destination?.navigate(to: .productDetailView)
     }
     
+    /// Navega atrás en la pila de navegación.
     func goBack() {
         destination?.navigateBack()
+    }
+    
+    /// Navega a la vista de desarrollador.
+    func routeToDeveloper() {
+        destination?.navigate(to: .developerView)
     }
 }
