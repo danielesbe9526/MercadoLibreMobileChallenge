@@ -20,80 +20,82 @@ struct DeveloperView: View {
     @State private var textColor: Color = .black
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .center, spacing: 20) {
-                Text("Configura tu app")
-                    .font(.system(size: 24, weight: .bold))
-                    .foregroundStyle(.black)
-                
-                phone
-                
-                HStack {
-                    Text("Selecciona un tema")
-                        .fontWeight(.medium)
+        ViewWrapper(showHeader: false, showBackButton: true) {
+            ScrollView {
+                VStack(alignment: .center, spacing: 20) {
+                    Text("Configura tu app")
+                        .font(.system(size: 24, weight: .bold))
                         .foregroundStyle(.black)
                     
-                    Spacer()
+                    phone
                     
-                    Picker("Selecciona un tema", selection: $theme) {
-                        ForEach(ColorTheme.allCases, id: \.id) { theme in
-                            Text(theme.name).tag(theme)
+                    HStack {
+                        Text("Selecciona un tema")
+                            .fontWeight(.medium)
+                            .foregroundStyle(.black)
+                        
+                        Spacer()
+                        
+                        Picker("Selecciona un tema", selection: $theme) {
+                            ForEach(ColorTheme.allCases, id: \.id) { theme in
+                                Text(theme.name).tag(theme)
+                            }
                         }
-                    }
-                    .pickerStyle(.menu)
-                    .padding(.horizontal)
-                }
-                .padding()
-                .background(.gray.opacity(0.1))
-                .clipShape(RoundedRectangle(cornerRadius: 20))
-                
-                
-                if theme == .custom {
-                    VStack {
-                        ColorPicker("Color primario", selection: $primaryColor)
-                        ColorPicker("Color de texto", selection: $textColor)
-                        ColorPicker("Color de fuente (body)", selection: $fontColot)
-                        ColorPicker("Color call to action", selection: $callToActionColor)
-                        ColorPicker("Color Main", selection: $mainColor)
-                        ColorPicker("Color de fondo", selection: $backgroundColor)
+                        .pickerStyle(.menu)
+                        .padding(.horizontal)
                     }
                     .padding()
-                    
                     .background(.gray.opacity(0.1))
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     
+                    
+                    if theme == .custom {
+                        VStack {
+                            ColorPicker("Color primario", selection: $primaryColor)
+                            ColorPicker("Color de texto", selection: $textColor)
+                            ColorPicker("Color de fuente (body)", selection: $fontColot)
+                            ColorPicker("Color call to action", selection: $callToActionColor)
+                            ColorPicker("Color Main", selection: $mainColor)
+                            ColorPicker("Color de fondo", selection: $backgroundColor)
+                        }
+                        .padding()
+                        
+                        .background(.gray.opacity(0.1))
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        
+                    }
+                    
+                    Spacer()
                 }
-                
-                Spacer()
             }
-        }
-        .onChange(of: theme) { oldValue, newValue in
-            if newValue == .custom {
-                let palette = ColorPalette(
-                    primaryColor: primaryColor,
-                    fontColot: fontColot,
-                    callToActionColor: callToActionColor,
-                    mainColor: mainColor,
-                    backgroundColor: backgroundColor,
-                    textColor: textColor)
-                
-                colorManager.changeCustomTheme(palette: palette)
-            } else {
-                colorManager.changeTeme(theme: theme)
+            .onChange(of: theme) { oldValue, newValue in
+                if newValue == .custom {
+                    let palette = ColorPalette(
+                        primaryColor: primaryColor,
+                        fontColot: fontColot,
+                        callToActionColor: callToActionColor,
+                        mainColor: mainColor,
+                        backgroundColor: backgroundColor,
+                        textColor: textColor)
+                    
+                    colorManager.changeCustomTheme(palette: palette)
+                } else {
+                    colorManager.changeTeme(theme: theme)
+                }
             }
-        }
-        .padding()
-        .onDisappear {
-            if theme == .custom {
-                let palette = ColorPalette(
-                    primaryColor: primaryColor,
-                    fontColot: fontColot,
-                    callToActionColor: callToActionColor,
-                    mainColor: mainColor,
-                    backgroundColor: backgroundColor,
-                    textColor: textColor)
-                
-                colorManager.changeCustomTheme(palette: palette)
+            .padding()
+            .onDisappear {
+                if theme == .custom {
+                    let palette = ColorPalette(
+                        primaryColor: primaryColor,
+                        fontColot: fontColot,
+                        callToActionColor: callToActionColor,
+                        mainColor: mainColor,
+                        backgroundColor: backgroundColor,
+                        textColor: textColor)
+                    
+                    colorManager.changeCustomTheme(palette: palette)
+                }
             }
         }
     }

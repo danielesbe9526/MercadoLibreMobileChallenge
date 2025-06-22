@@ -37,22 +37,28 @@ struct CardHView: View {
         if let url = URL(string: product.images?.first ?? "") {
             CachedAsyncImage(url: url)
                 .clipShape(RoundedRectangle(cornerRadius: 14))
+                .accessibilityHidden(true)
         }
     }
     
     @ViewBuilder
     var productDescription: some View {
-        VStack(alignment: .leading, spacing: 15) {
+        VStack(alignment: .leading, spacing: 5) {
             VStack(alignment: .leading) {
                 if let brand = product.brand {
                     Text(brand.uppercased())
                         .textStyle(.brand)
+                        .accessibilityHidden(true)
                 }
                 
                 if let name = product.name {
                     Text(product.isAppleSeller ? name + " - " + "Distribuidor Autorizado" : name)
                         .textStyle(.tittle)
-                        .lineLimit(2)
+                        .lineLimit(nil)
+                        .frame(maxWidth: .infinity)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .accessibilityIdentifier("ProductName")
+                        .accessibilityLabel("nombre de el producto: \(name)")
                 }
             }
             
@@ -62,26 +68,34 @@ struct CardHView: View {
                         .fontWeight(.regular)
                         .foregroundStyle(.gray.opacity(0.5))
                         .font(.system(size: 14))
+                        .accessibilityHidden(true)
 
                     Image(.verified)
                         .resizable()
                         .frame(width: 15, height: 15)
+                        .accessibilityHidden(true)
                 }
             }
             
             if let rating = product.rating {
                 StartsView(rating: rating, numberOfVotes: product.numReviews ?? 0)
+                    .padding(.vertical, 5)
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel("rating del prodcuto, rating de \(Int(rating)), con \(product.numReviews ?? 0) votos")
             }
             
             if let originalPrice = product.originalPrice {
                 prices(originalPrice)
+                    .padding(.vertical, 5)
             }
             
             if samePrice {
                 Text("Mismo precio en \(installmentsSTR)")
                     .textStyle(.green12)
-                    .lineLimit(2)
-
+                    .lineLimit(nil)
+                    .frame(maxWidth: .infinity)
+                    .fixedSize(horizontal: false, vertical: true)
+                
             } else if product.installments != nil {
                 Text("en \(installmentsSTR)")
                     .font(.system(size: 12))
@@ -99,19 +113,28 @@ struct CardHView: View {
     func prices(_ originalPrice: Double) -> some View {
         VStack(alignment: .leading) {
             if let discountedPrice = product.discountedPrice {
-                PriceView(value: discountedPrice, size: 14)
+                PriceView(value: originalPrice, size: 14)
                     .foregroundStyle(colorManager.textColor.opacity(0.3))
-                
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel("precio anterior de: \(Int(originalPrice))")
                 HStack {
-                    PriceView(value: originalPrice, size: 18)
+                    PriceView(value: discountedPrice, size: 18)
                         .foregroundStyle(colorManager.textColor)
-
+                        .accessibilityElement(children: .combine)
+                        .accessibilityLabel("nuevo precio de: \(Int(discountedPrice))")
+                    
                     let discountPercentage = String(format: "%.1f", product.discountPercentage ?? 0)
+
                     Text("\(discountPercentage)%OFF")
                         .textStyle(.discount)
+                        .accessibilityLabel("descuento de \(discountPercentage)%")
+
                 }
             } else {
                 PriceView(value: originalPrice, size: 18)
+                    .foregroundStyle(colorManager.textColor)
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel("precio de: \(Int(originalPrice))")
             }
         }
     }
@@ -121,7 +144,7 @@ struct CardHView_Previews: PreviewProvider {
     static let productos = [
         Product(
             id: "27d3cef8dd15dfa932b75fd7apple",
-            name: "Soft Concrete Salad",
+            name: "Licensed Ceramic Computer",
             store: "Apple tienda oficial",
             brand: "Apple",
             seller: "Alfredo Olivas",

@@ -228,15 +228,21 @@ public struct ProductDetailView: View {
                 HStack {
                     PriceView(value: discountedPrice, size: 26)
                         .foregroundStyle(colorManager.textColor)
+                        .accessibilityElement(children: .combine)
+                        .accessibilityLabel("precio de: \(Int(discountedPrice))")
                     
                     let discountPercentage = String(format: "%.1f", product?.discountPercentage ?? 0)
                     Text("\(discountPercentage)%OFF")
                         .font(.system(size: 18))
                         .foregroundStyle(colorManager.callToActionColor)
+                        .accessibilityLabel("descuento de \(discountPercentage)%")
+
                 }
             } else {
                 PriceView(value: originalPrice, size: 18)
                     .foregroundStyle(colorManager.textColor)
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel("precio de: \(Int(originalPrice))")
             }
         }
     }

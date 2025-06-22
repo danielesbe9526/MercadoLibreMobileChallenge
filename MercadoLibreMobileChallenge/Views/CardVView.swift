@@ -17,9 +17,11 @@ struct CardVView: View {
 
     var body: some View {
         HStack(spacing: 5) {
-            productImage
             Spacer()
+            productImage
             productDescription
+                .padding(5)
+            Spacer()
         }
         .onAppear {
             if let installments = product.installments,
@@ -35,32 +37,39 @@ struct CardVView: View {
     var productImage: some View {
         if let url = URL(string: product.images?.first ?? "") {
             CachedAsyncImage(url: url)
-                .frame(maxWidth: 150)
+                .frame(width: 150)
                 .clipShape(RoundedRectangle(cornerRadius: 5))
+                .accessibilityHidden(true)
         }
     }
     
     @ViewBuilder
     var productDescription: some View {
-        VStack(alignment: .leading, spacing: 15) {
+        VStack(alignment: .leading, spacing: 5) {
             if let store = product.store {
                 Text(store.uppercased())
                     .textStyle(.store)
-                    .padding(3)
+                    .padding(10)
                     .background(.black)
-                
+                    .accessibilityHidden(true)
+                    .padding(.vertical, 5)
             }
             
             VStack(alignment: .leading) {
                 if let brand = product.brand {
                     Text(brand.uppercased())
                         .textStyle(.brand)
+                        .accessibilityHidden(true)
                 }
                 
                 if let name = product.name {
                     Text(product.isAppleSeller ? name + " - " + "Distribuidor Autorizado" : name)
                         .foregroundStyle(colorManager.fontColot)
                         .font(.system(size: 16))
+                        .lineLimit(nil)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .accessibilityIdentifier("ProductName")
+                        .accessibilityLabel("nombre de el producto: \(name)")
                 }
             }
             
@@ -70,38 +79,49 @@ struct CardVView: View {
                         .fontWeight(.regular)
                         .foregroundStyle(.gray.opacity(0.5))
                         .font(.system(size: 14))
+                        .accessibilityHidden(true)
 
                     Image(.verified)
                         .resizable()
                         .frame(width: 15, height: 15)
-                    
+                        .accessibilityHidden(true)
                 }
             }
             
             if let rating = product.rating {
                 StartsView(rating: rating, numberOfVotes: product.numReviews ?? 0)
+                    .padding(.vertical, 5)
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel("Rating del producto, rating de \(Int(rating)), con \(product.numReviews ?? 0) votos")
             }
             
             if let originalPrice = product.originalPrice {
                 
                 VStack(alignment: .leading) {
                     if let discountedPrice = product.discountedPrice {
-                        PriceView(value: discountedPrice, size: 14)
+                        PriceView(value: originalPrice, size: 14)
                             .foregroundStyle(colorManager.textColor.opacity(0.2))
-                        
+                            .accessibilityElement(children: .combine)
+                            .accessibilityLabel("precio anterior de: \(Int(originalPrice))")
                         HStack {
-                            PriceView(value: originalPrice, size: 20)
+                            PriceView(value: discountedPrice, size: 18)
                                 .foregroundStyle(colorManager.textColor)
-
+                                .accessibilityElement(children: .combine)
+                                .accessibilityLabel("nuevo precio de: \(Int(discountedPrice))")
+                            
                             let discountPercentage = String(format: "%.1f", product.discountPercentage ?? 0)
                             Text("\(discountPercentage)%OFF")
                                 .textStyle(.discount)
+                                .accessibilityLabel("descuento de \(discountPercentage)%")
                         }
                     } else {
                         PriceView(value: originalPrice, size: 18)
                             .foregroundStyle(colorManager.textColor)
+                            .accessibilityElement(children: .combine)
+                            .accessibilityLabel("precio de: \(Int(originalPrice))")
                     }
                 }
+                .padding(.vertical, 5)
             }
             
             if samePrice {
@@ -133,9 +153,9 @@ struct CardVView_Previews: PreviewProvider {
             seller: "Alfredo Olivas",
             rating: 2.5382769637012697,
             numReviews: 19060,
-            originalPrice: 680374.49,
-            discountedPrice: 557537.9185789034,
-            discountPercentage: 0.18054258827531378,
+            originalPrice: 451668.73,
+            discountedPrice: 304234.2158110386,
+            discountPercentage: 0.32642178746569717,
             installments: "12 cuotas de 56697.87416666667",
             shipping: "Envío gratis",
             images: [

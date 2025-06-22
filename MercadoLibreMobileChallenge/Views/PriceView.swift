@@ -15,11 +15,13 @@ struct PriceView: View {
         HStack(alignment: .firstTextBaseline, spacing: 0) {
             Text("$\(Int(value))")
                 .font(.system(size: size, weight: .medium))
+                .lineLimit(1)
             
             let decimalString = String(format: "%.2f", value).split(separator: ".")[1]
             Text("." + decimalString)
                 .font(.system(size: size/1.4))
                 .baselineOffset(8)
+                .lineLimit(1)
         }
     }
 }

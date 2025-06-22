@@ -106,44 +106,8 @@ public struct ViewWrapper<Content: View>: View {
                         searchList
                     } else {
                         HeaderView
-                        
                         if isColorPickerPresented {
-                            HStack {
-                                ForEach(colors, id: \.self) { color in
-                                    Button(action: {
-                                        selectedColor = color
-                                        colorManager.primaryColor = selectedColor
-                                        isColorPickerPresented = false
-                                    }) {
-                                        Circle()
-                                            .fill(color)
-                                            .frame(width: 40, height: 40)
-                                            .overlay(
-                                                Circle()
-                                                    .stroke(selectedColor == color ? Color.black : Color.clear, lineWidth: 2)
-                                            )
-                                    }
-                                    .padding(4)
-                                }
-                                Circle()
-                                    .fill(
-                                        RadialGradient(
-                                            gradient: Gradient(colors: colors),
-                                            center: .center,
-                                            startRadius: 0,
-                                            endRadius: 40
-                                        )
-                                    )
-                                    .frame(width: 40, height: 40)
-                                    .overlay(
-                                        Text("Other")
-                                            .font(.system(size: 8))
-                                    )
-                                    .onTapGesture {
-                                        otherThemeTapped?()
-                                        isColorPickerPresented = false
-                                    }
-                            }
+                            colorsView
                         }
                         content()
                     }
@@ -178,6 +142,8 @@ public struct ViewWrapper<Content: View>: View {
                     .font(.system(size: 30))
                     .matchedGeometryEffect(id: arrowAnimation, in: barAnimation)
                     .padding(.leading, 6)
+                    .accessibilityLabel("Volver")
+                    .accessibilityIdentifier("BackButton", isEnabled: showBackButton)
                 } else {
                     Spacer()
                 }
@@ -187,7 +153,8 @@ public struct ViewWrapper<Content: View>: View {
                 TextField("", text: $searchText)
                     .placeholder(when: searchText.isEmpty) {
                         Text("Buscar...")
-                            .foregroundStyle(.font.opacity(0.5))
+                            .foregroundStyle(colorManager.fontColot.opacity(0.5))
+                            .accessibilityHidden(true)
                     }
                     .padding(6)
                     .background(colorManager.backgroundColor)
@@ -204,6 +171,10 @@ public struct ViewWrapper<Content: View>: View {
                         }
                     }
                     .foregroundStyle(colorManager.textColor)
+                    .accessibilityIdentifier("SearchBar")
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel("Barra de busqueda")
+                    .accessibilityHint("Toca dos veces para iniciar la busqueda")
                 
                 Spacer()
                 
@@ -213,6 +184,9 @@ public struct ViewWrapper<Content: View>: View {
                     }
                     .foregroundStyle(colorManager.textColor)
                     .font(.system(size: 20))
+                    .accessibilityIdentifier("SetUpButton")
+                    .accessibilityLabel("Botón de configuracion")
+                    .accessibilityHint("Toca dos veces para abrir la configuracion")
                 }
                 Spacer()
             }
@@ -224,18 +198,21 @@ public struct ViewWrapper<Content: View>: View {
                         .resizable()
                         .frame(width: 20, height: 20)
                         .foregroundStyle(colorManager.textColor)
+                        .accessibilityHidden(true)
                     
                     if let placemark = locationManager.placemark {
                         Text("\(placemark.compactAddress ?? "Desconocido")")
                             .fontWeight(.thin)
                             .font(.system(size: 12))
                             .foregroundStyle(colorManager.textColor)
+                            .accessibilityIdentifier("Ubication")
                     }
                     
                     Image(systemName: "chevron.right")
                         .fontWeight(.medium)
                         .font(.system(size: 15))
                         .foregroundStyle(colorManager.textColor)
+                        .accessibilityHidden(true)
                     
                 }
                 .foregroundStyle(colorManager.textColor)
@@ -251,6 +228,9 @@ public struct ViewWrapper<Content: View>: View {
                         .fontWeight(.bold)
                         .foregroundStyle(showInList ? colorManager.textColor : colorManager.primaryColor)
                         .font(.system(size: 20))
+                        .accessibilityIdentifier("GridButton")
+                        .accessibilityLabel("Botón Para mostrar como grilla")
+                        .accessibilityHint("Toca dos veces para usar la grilla como vista")
                         
                         Button("", systemImage: "list.bullet") {
                             showInList = true
@@ -258,12 +238,14 @@ public struct ViewWrapper<Content: View>: View {
                         .fontWeight(.bold )
                         .foregroundStyle(showInList ? colorManager.primaryColor : colorManager.textColor)
                         .font(.system(size: 20))
+                        .accessibilityIdentifier("ListButton")
+                        .accessibilityLabel("Botón Para mostrar como Lista")
+                        .accessibilityHint("Toca dos veces para usar la Lista como vista")
                     }
                 }
             }
         }
     }
-    
     
     @ViewBuilder
     var searchList: some View {
@@ -279,11 +261,15 @@ public struct ViewWrapper<Content: View>: View {
                 .foregroundStyle(colorManager.fontColot)
                 .font(.system(size: 30))
                 .padding(.leading, 30)
+                .accessibilityIdentifier("BackListButton")
+                .accessibilityLabel("Botón para volver")
+                .accessibilityHint("Toca dos veces para salir de la busqueda")
                 
                 TextField("", text: $searchText)
                     .placeholder(when: searchText.isEmpty) {
                         Text("Buscar en Mercado Libre")
                             .foregroundStyle(colorManager.fontColot.opacity(0.5))
+                            .accessibilityHidden(true)
                     }
                     .matchedGeometryEffect(id: searchBarAnimation, in: barAnimation)
                     .foregroundColor(colorManager.textColor)
@@ -308,14 +294,17 @@ public struct ViewWrapper<Content: View>: View {
                 HStack(spacing: 30) {
                     Image(systemName: "clock")
                         .foregroundColor(colorManager.fontColot.opacity(0.6))
-                    
+                        .accessibilityHidden(true)
+
                     Text(item)
                         .foregroundColor(colorManager.fontColot.opacity(0.6))
+                        .accessibilityIdentifier("CellItem")
                     
                     Spacer()
                     
                     Image(systemName: "arrow.up.left")
                         .foregroundColor(colorManager.fontColot.opacity(0.6))
+                        .accessibilityHidden(true)
                 }
                 .listRowBackground(colorManager.backgroundColor)
                 .listRowSeparator(.hidden)
@@ -329,6 +318,55 @@ public struct ViewWrapper<Content: View>: View {
         }
         .background(colorManager.backgroundColor)
         .listStyle(PlainListStyle())
+    }
+    
+    @ViewBuilder
+    var colorsView: some View {
+        HStack {
+            ForEach(colors, id: \.self) { color in
+                Button(action: {
+                    selectedColor = color
+                    colorManager.primaryColor = selectedColor
+                    isColorPickerPresented = false
+                }) {
+                    Circle()
+                        .fill(color)
+                        .frame(width: 40, height: 40)
+                        .overlay(
+                            Circle()
+                                .stroke(selectedColor == color ? Color.black : Color.clear, lineWidth: 2)
+                        )
+                }
+                .padding(4)
+                .accessibilityIdentifier("Color \(color.description)")
+                .accessibilityLabel("Color \(color.description)")
+                .accessibilityHint("Toca dos veces para cambiar el color")
+            }
+            
+            Circle()
+                .fill(
+                    RadialGradient(
+                        gradient: Gradient(colors: colors),
+                        center: .center,
+                        startRadius: 0,
+                        endRadius: 40
+                    )
+                )
+                .frame(width: 40, height: 40)
+                .overlay(
+                    Text("Other")
+                        .font(.system(size: 8))
+                )
+                .onTapGesture {
+                    otherThemeTapped?()
+                    isColorPickerPresented = false
+                }
+                .accessibilityElement(children: .combine)
+                .accessibilityIdentifier("DeveloperButton")
+                .accessibilityAddTraits(.isButton)
+                .accessibilityLabel("Boton para acceder a el modo desarrollador")
+                .accessibilityHint("Toca dos veces para acceder")
+        }
     }
 }
 

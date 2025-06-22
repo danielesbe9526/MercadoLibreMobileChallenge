@@ -32,6 +32,8 @@ struct StartsView: View {
                 .foregroundStyle(.gray.opacity(0.7))
                 .font(.system(size: 10))
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("rating del prodcuto, rating de \(Int(rating)), con \(numberOfVotes) votos")
     }
     
     func starType(for index: Int) -> Image {

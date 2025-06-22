@@ -13,8 +13,8 @@ struct HomeView: View {
     @StateObject private var locationManager = LocationManager()
     @FocusState private var isTextFieldFocused: Bool
 
-    let columnsGrid = [GridItem(.adaptive(minimum: 190, maximum: 200))]
-    let columnsList = [GridItem(.fixed(350))]
+    let columnsGrid = [GridItem(.fixed((UIScreen.main.bounds.width/2) - 10)), GridItem(.fixed((UIScreen.main.bounds.width/2) - 10))]
+    let columnsList = [GridItem(.fixed(UIScreen.main.bounds.width - 16))]
     
     @State private var alertModel: AlertModel?
     @State private var showInList: Bool = true
@@ -34,10 +34,24 @@ struct HomeView: View {
                                         .onTapGesture {
                                             viewModel.getDetailProduct()
                                         }
+                                        .accessibilityIdentifier("Cardv")
+                                        .accessibilityElement(children: .combine)
+                                        .accessibilityHint("Toca dos veces para ver mas detalles")
+                                        .accessibilityAction {
+                                            viewModel.getDetailProduct()
+                                        }
+                                    
                                 } else {
                                     CardHView(product: product, viewModel: viewModel)
                                         .padding(.top, 16)
                                         .onTapGesture {
+                                            viewModel.getDetailProduct()
+                                        }
+                                        .frame(height: 500)
+                                        .accessibilityIdentifier("CardH")
+                                        .accessibilityElement(children: .combine)
+                                        .accessibilityHint("Toca dos veces para ver mas detalles")
+                                        .accessibilityAction {
                                             viewModel.getDetailProduct()
                                         }
                                 }
@@ -57,15 +71,15 @@ struct HomeView: View {
             if newValue != nil {
                 alertModel = AlertModel(title: "🚧 Error obteniendo ubicacion 🚧",
                                         message: newValue,
-                                        mainButtonTitle: "got it")
+                                        mainButtonTitle: "ok")
             }
         }
         .onChange(of: viewModel.requestFails) { oldValue, newValue in
-//            if newValue {
-//                alertModel = AlertModel(title: "🛜 Error obteniendo datos 🛜",
-//                                        message: "Por favor verifique su conexion.",
-//                                        mainButtonTitle: "got it")
-//            }
+            if newValue {
+                alertModel = AlertModel(title: "🛜 Error obteniendo datos 🛜",
+                                        message: "Por favor verifique su conexion.",
+                                        mainButtonTitle: "got it")
+            }
         }
     }
 }
