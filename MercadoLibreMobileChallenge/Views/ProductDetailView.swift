@@ -13,6 +13,8 @@ public struct ProductDetailView: View {
    
     @State private var product: ProductDetail?
     @State var installmentsSTR: String = ""
+    @State var samePrice: Bool = false
+
     @State private var selectedImageIndex = 0
     @State private var isFavorite = false
     
@@ -74,7 +76,9 @@ public struct ProductDetailView: View {
             
             if let installments = product?.installments?.value,
                let price = product?.originalPrice {
-                installmentsSTR = viewModel.calculatePrice(installments: installments, price: price)
+                let response = viewModel.calculatePrice(installments: installments, price: price)
+                installmentsSTR = response.message
+                samePrice = response.samePrice
             }
             
         }
@@ -99,14 +103,14 @@ public struct ProductDetailView: View {
                 prices(originalPrice)
             }
 
-            if viewModel.showSamePrice {
+            if samePrice {
                 Text("Mismo precio en \(installmentsSTR)")
                     .foregroundStyle(colorManager.callToActionColor)
                     .font(.system(size: 14))
             } else if product?.installments != nil {
-                Text(viewModel.installmentsMessage)
+                Text("en \(installmentsSTR)")
                     .font(.system(size: 12))
-                    .foregroundStyle(colorManager.textColor)
+                    .foregroundStyle(colorManager.fontColot)
             }
             
             if let alternative = product?.installments?.alternative {

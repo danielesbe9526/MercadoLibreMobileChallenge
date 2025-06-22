@@ -6,20 +6,63 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		F83D5A2B2E07684C00CE5566 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F883C1DA2E03067300364D4E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F883C1E12E03067300364D4E;
+			remoteInfo = MercadoLibreMobileChallenge;
+		};
+		F8D8DEAD2E07861900D3DB26 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F883C1DA2E03067300364D4E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F883C1E12E03067300364D4E;
+			remoteInfo = MercadoLibreMobileChallenge;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		F83D5A272E07684C00CE5566 /* MercadoLibreMobileChallengeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MercadoLibreMobileChallengeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F883C1E22E03067300364D4E /* MercadoLibreMobileChallenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MercadoLibreMobileChallenge.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F8D8DEA72E07861800D3DB26 /* MercadoLibreMobileChallengeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MercadoLibreMobileChallengeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		F83D5A282E07684C00CE5566 /* MercadoLibreMobileChallengeTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = MercadoLibreMobileChallengeTests;
+			sourceTree = "<group>";
+		};
 		F883C1E42E03067300364D4E /* MercadoLibreMobileChallenge */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = MercadoLibreMobileChallenge;
 			sourceTree = "<group>";
 		};
+		F8D8DEA82E07861900D3DB26 /* MercadoLibreMobileChallengeUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = MercadoLibreMobileChallengeUITests;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		F83D5A242E07684C00CE5566 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F883C1DF2E03067300364D4E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F8D8DEA42E07861800D3DB26 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -33,6 +76,8 @@
 			isa = PBXGroup;
 			children = (
 				F883C1E42E03067300364D4E /* MercadoLibreMobileChallenge */,
+				F83D5A282E07684C00CE5566 /* MercadoLibreMobileChallengeTests */,
+				F8D8DEA82E07861900D3DB26 /* MercadoLibreMobileChallengeUITests */,
 				F883C1E32E03067300364D4E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +86,8 @@
 			isa = PBXGroup;
 			children = (
 				F883C1E22E03067300364D4E /* MercadoLibreMobileChallenge.app */,
+				F83D5A272E07684C00CE5566 /* MercadoLibreMobileChallengeTests.xctest */,
+				F8D8DEA72E07861800D3DB26 /* MercadoLibreMobileChallengeUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,6 +95,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		F83D5A262E07684C00CE5566 /* MercadoLibreMobileChallengeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F83D5A2D2E07684C00CE5566 /* Build configuration list for PBXNativeTarget "MercadoLibreMobileChallengeTests" */;
+			buildPhases = (
+				F83D5A232E07684C00CE5566 /* Sources */,
+				F83D5A242E07684C00CE5566 /* Frameworks */,
+				F83D5A252E07684C00CE5566 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F83D5A2C2E07684C00CE5566 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				F83D5A282E07684C00CE5566 /* MercadoLibreMobileChallengeTests */,
+			);
+			name = MercadoLibreMobileChallengeTests;
+			packageProductDependencies = (
+			);
+			productName = MercadoLibreMobileChallengeTests;
+			productReference = F83D5A272E07684C00CE5566 /* MercadoLibreMobileChallengeTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		F883C1E12E03067300364D4E /* MercadoLibreMobileChallenge */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F883C1ED2E03067400364D4E /* Build configuration list for PBXNativeTarget "MercadoLibreMobileChallenge" */;
@@ -70,6 +140,29 @@
 			productReference = F883C1E22E03067300364D4E /* MercadoLibreMobileChallenge.app */;
 			productType = "com.apple.product-type.application";
 		};
+		F8D8DEA62E07861800D3DB26 /* MercadoLibreMobileChallengeUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F8D8DEAF2E07861900D3DB26 /* Build configuration list for PBXNativeTarget "MercadoLibreMobileChallengeUITests" */;
+			buildPhases = (
+				F8D8DEA32E07861800D3DB26 /* Sources */,
+				F8D8DEA42E07861800D3DB26 /* Frameworks */,
+				F8D8DEA52E07861800D3DB26 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F8D8DEAE2E07861900D3DB26 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				F8D8DEA82E07861900D3DB26 /* MercadoLibreMobileChallengeUITests */,
+			);
+			name = MercadoLibreMobileChallengeUITests;
+			packageProductDependencies = (
+			);
+			productName = MercadoLibreMobileChallengeUITests;
+			productReference = F8D8DEA72E07861800D3DB26 /* MercadoLibreMobileChallengeUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -77,11 +170,19 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1630;
+				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1630;
 				TargetAttributes = {
+					F83D5A262E07684C00CE5566 = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = F883C1E12E03067300364D4E;
+					};
 					F883C1E12E03067300364D4E = {
 						CreatedOnToolsVersion = 16.3;
+					};
+					F8D8DEA62E07861800D3DB26 = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = F883C1E12E03067300364D4E;
 					};
 				};
 			};
@@ -100,12 +201,28 @@
 			projectRoot = "";
 			targets = (
 				F883C1E12E03067300364D4E /* MercadoLibreMobileChallenge */,
+				F83D5A262E07684C00CE5566 /* MercadoLibreMobileChallengeTests */,
+				F8D8DEA62E07861800D3DB26 /* MercadoLibreMobileChallengeUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		F83D5A252E07684C00CE5566 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F883C1E02E03067300364D4E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F8D8DEA52E07861800D3DB26 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -115,7 +232,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		F83D5A232E07684C00CE5566 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F883C1DE2E03067300364D4E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F8D8DEA32E07861800D3DB26 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -124,7 +255,58 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		F83D5A2C2E07684C00CE5566 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F883C1E12E03067300364D4E /* MercadoLibreMobileChallenge */;
+			targetProxy = F83D5A2B2E07684C00CE5566 /* PBXContainerItemProxy */;
+		};
+		F8D8DEAE2E07861900D3DB26 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F883C1E12E03067300364D4E /* MercadoLibreMobileChallenge */;
+			targetProxy = F8D8DEAD2E07861900D3DB26 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		F83D5A2E2E07684C00CE5566 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = WW5K829KP9;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.DanielBeltran.MercadoLibreMobileChallengeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MercadoLibreMobileChallenge.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MercadoLibreMobileChallenge";
+			};
+			name = Debug;
+		};
+		F83D5A2F2E07684C00CE5566 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = WW5K829KP9;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.DanielBeltran.MercadoLibreMobileChallengeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MercadoLibreMobileChallenge.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MercadoLibreMobileChallenge";
+			};
+			name = Release;
+		};
 		F883C1EB2E03067400364D4E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -304,9 +486,54 @@
 			};
 			name = Release;
 		};
+		F8D8DEB02E07861900D3DB26 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = WW5K829KP9;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.DanielBeltran.MercadoLibreMobileChallengeUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MercadoLibreMobileChallenge;
+			};
+			name = Debug;
+		};
+		F8D8DEB12E07861900D3DB26 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = WW5K829KP9;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.DanielBeltran.MercadoLibreMobileChallengeUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MercadoLibreMobileChallenge;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		F83D5A2D2E07684C00CE5566 /* Build configuration list for PBXNativeTarget "MercadoLibreMobileChallengeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F83D5A2E2E07684C00CE5566 /* Debug */,
+				F83D5A2F2E07684C00CE5566 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		F883C1DD2E03067300364D4E /* Build configuration list for PBXProject "MercadoLibreMobileChallenge" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -321,6 +548,15 @@
 			buildConfigurations = (
 				F883C1EE2E03067400364D4E /* Debug */,
 				F883C1EF2E03067400364D4E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F8D8DEAF2E07861900D3DB26 /* Build configuration list for PBXNativeTarget "MercadoLibreMobileChallengeUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F8D8DEB02E07861900D3DB26 /* Debug */,
+				F8D8DEB12E07861900D3DB26 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

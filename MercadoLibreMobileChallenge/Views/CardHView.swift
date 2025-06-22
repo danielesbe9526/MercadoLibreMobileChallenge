@@ -11,6 +11,8 @@ struct CardHView: View {
     var product: Product
     @ObservedObject var viewModel: HomeViewModel
     @State var installmentsSTR: String = ""
+    @State var samePrice: Bool = false
+
     @EnvironmentObject var colorManager: ThemeManager
 
     var body: some View {
@@ -23,7 +25,9 @@ struct CardHView: View {
         .onAppear {
             if let installments = product.installments,
                let price = product.originalPrice {
-                installmentsSTR = viewModel.calculatePrice(installments: installments, price: price)
+                let response = viewModel.calculatePrice(installments: installments, price: price)
+                installmentsSTR = response.message
+                samePrice = response.samePrice
             }
         }
     }
@@ -73,14 +77,15 @@ struct CardHView: View {
                 prices(originalPrice)
             }
             
-            if viewModel.showSamePrice {
+            if samePrice {
                 Text("Mismo precio en \(installmentsSTR)")
                     .textStyle(.green12)
                     .lineLimit(2)
 
             } else if product.installments != nil {
-                Text(viewModel.installmentsMessage)
+                Text("en \(installmentsSTR)")
                     .font(.system(size: 12))
+                    .foregroundStyle(colorManager.fontColot)
             }
            
             if let shipping = product.shipping {
