@@ -56,19 +56,12 @@ Esta aplicación en **SwiftUI** presenta un marketplace con navegación **contro
 ## Cómo empezar
 1. Clona el repositorio:
 ash
-git clone 
-
-
- Copy code
+git clone https://github.com/danielesbe9526/MercadoLibreMobileChallenge.git
 
 2. Abre en Xcode:
 ash
 cd 
 open .xcodeproj
-
-
- Copy code
-
 3. Ejecuta en un simulador o dispositivo físico.
 
 ## Uso
