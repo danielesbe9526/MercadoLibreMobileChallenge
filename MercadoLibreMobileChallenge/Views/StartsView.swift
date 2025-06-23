@@ -18,7 +18,7 @@ struct StartsView: View {
         HStack(spacing: 4) {
             Text(String(format: "%.1f", rating))
                 .fontWeight(.regular)
-                .foregroundStyle(.gray.opacity(0.7))
+                .foregroundStyle(colorManager.fontColot.opacity(0.7))
                 .font(.system(size: 14))
             
             ForEach(0..<maxStars, id: \.self) { index in
@@ -29,7 +29,7 @@ struct StartsView: View {
             
             Text("(\(numberOfVotes))")
                 .fontWeight(.regular)
-                .foregroundStyle(.gray.opacity(0.7))
+                .foregroundStyle(colorManager.fontColot.opacity(0.7))
                 .font(.system(size: 10))
         }
         .accessibilityElement(children: .combine)

@@ -56,7 +56,6 @@ struct CardHView: View {
                     Text(product.isAppleSeller ? name + " - " + "Distribuidor Autorizado" : name)
                         .textStyle(.tittle)
                         .lineLimit(nil)
-                        .frame(maxWidth: .infinity)
                         .fixedSize(horizontal: false, vertical: true)
                         .accessibilityIdentifier("ProductName")
                         .accessibilityLabel("nombre de el producto: \(name)")

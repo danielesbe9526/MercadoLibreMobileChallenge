@@ -6,8 +6,6 @@
 //
 
 import Foundation
-import Combine
-
 /// `APIInteractor` es una clase que maneja la interacción con datos locales y remotos.
 public final class APIInteractor {
     

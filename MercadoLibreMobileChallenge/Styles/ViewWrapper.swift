@@ -105,9 +105,12 @@ public struct ViewWrapper<Content: View>: View {
                     searchList
                 } else {
                     HeaderView
+                        .padding(.bottom, 5)
+                    
                     if isColorPickerPresented {
                         colorsView
                     }
+                    
                     content()
                 }
             }
@@ -171,20 +174,19 @@ public struct ViewWrapper<Content: View>: View {
                         .accessibilityElement(children: .combine)
                         .accessibilityLabel("Barra de busqueda")
                         .accessibilityHint("Toca dos veces para iniciar la busqueda")
-                }
-               
-                
-                Spacer()
-                
-                if !showBackButton {
-                    Button("", systemImage: "gearshape.fill") {
-                        isColorPickerPresented.toggle()
+                    
+                    Spacer()
+                    
+                    if !showBackButton {
+                        Button("", systemImage: "gearshape.fill") {
+                            isColorPickerPresented.toggle()
+                        }
+                        .foregroundStyle(colorManager.textColor)
+                        .font(.system(size: 20))
+                        .accessibilityIdentifier("SetUpButton")
+                        .accessibilityLabel("Botón de configuracion")
+                        .accessibilityHint("Toca dos veces para abrir la configuracion")
                     }
-                    .foregroundStyle(colorManager.textColor)
-                    .font(.system(size: 20))
-                    .accessibilityIdentifier("SetUpButton")
-                    .accessibilityLabel("Botón de configuracion")
-                    .accessibilityHint("Toca dos veces para abrir la configuracion")
                 }
                 
                 Spacer()

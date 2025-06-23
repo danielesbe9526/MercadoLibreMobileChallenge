@@ -63,6 +63,7 @@ public struct ProductDetailView: View {
                     .background(colorManager.backgroundColor)
                 }
             }
+            .background(colorManager.backgroundColor)
         }
         .onAppear {
             if let productDetail = viewModel.productDetail {
@@ -82,8 +83,6 @@ public struct ProductDetailView: View {
             
         }
         .navigationBarBackButtonHidden(true)
-        .background(colorManager.mainColor)
-
     }
     
     @ViewBuilder
