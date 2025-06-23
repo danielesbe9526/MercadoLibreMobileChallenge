@@ -20,7 +20,9 @@ struct DeveloperView: View {
     @State private var textColor: Color = .black
     
     var body: some View {
-        ViewWrapper(showHeader: false, showBackButton: true) {
+        ViewWrapper(showHeader: false, showBackButton: true, buttonAction: {
+            viewModel.goBack()
+        }) {
             ScrollView {
                 VStack(alignment: .center, spacing: 20) {
                     Text("Configura tu app")
@@ -59,7 +61,7 @@ struct DeveloperView: View {
                             ColorPicker("Color de fondo", selection: $backgroundColor)
                         }
                         .padding()
-                        
+                        .foregroundStyle(.black)
                         .background(.gray.opacity(0.1))
                         .clipShape(RoundedRectangle(cornerRadius: 20))
                         
@@ -98,6 +100,9 @@ struct DeveloperView: View {
                 }
             }
         }
+        .background(.white)
+        .navigationBarBackButtonHidden(true)
+
     }
     
     @ViewBuilder

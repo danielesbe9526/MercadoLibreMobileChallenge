@@ -64,7 +64,6 @@ public struct ProductDetailView: View {
                 }
             }
         }
-        .background(colorManager.mainColor)
         .onAppear {
             if let productDetail = viewModel.productDetail {
                 product = productDetail

@@ -101,17 +101,13 @@ public struct ViewWrapper<Content: View>: View {
     public var body: some View {
         ZStack {
             VStack {
-                if showHeader {
-                    if showOverlay {
-                        searchList
-                    } else {
-                        HeaderView
-                        if isColorPickerPresented {
-                            colorsView
-                        }
-                        content()
-                    }
+                if showOverlay {
+                    searchList
                 } else {
+                    HeaderView
+                    if isColorPickerPresented {
+                        colorsView
+                    }
                     content()
                 }
             }
@@ -132,7 +128,6 @@ public struct ViewWrapper<Content: View>: View {
     var HeaderView: some View {
         VStack(spacing: 10) {
             /// Search Bar
-            
             HStack {
                 if showBackButton {
                     Button("", systemImage: "arrow.backward") {
@@ -150,31 +145,34 @@ public struct ViewWrapper<Content: View>: View {
                 
                 Spacer()
                 
-                TextField("", text: $searchText)
-                    .placeholder(when: searchText.isEmpty) {
-                        Text("Buscar...")
-                            .foregroundStyle(colorManager.fontColot.opacity(0.5))
-                            .accessibilityHidden(true)
-                    }
-                    .padding(6)
-                    .background(colorManager.backgroundColor)
-                    .cornerRadius(15)
-                    .frame(width: 310, height: 30)
-                    .matchedGeometryEffect(id: searchBarAnimation, in: barAnimation)
-                    .focused($isTextFieldFocused)
-                    .onChange(of: isTextFieldFocused) { oldValue, newValue in
-                        if newValue {
-                            withAnimation(.spring()) {
-                                isTextFieldFocused = false
-                                showOverlay = true
+                if showHeader {
+                    TextField("", text: $searchText)
+                        .placeholder(when: searchText.isEmpty) {
+                            Text("Buscar...")
+                                .foregroundStyle(colorManager.fontColot.opacity(0.5))
+                                .accessibilityHidden(true)
+                        }
+                        .padding(6)
+                        .background(colorManager.backgroundColor)
+                        .cornerRadius(15)
+                        .frame(width: 310, height: 30)
+                        .matchedGeometryEffect(id: searchBarAnimation, in: barAnimation)
+                        .focused($isTextFieldFocused)
+                        .onChange(of: isTextFieldFocused) { oldValue, newValue in
+                            if newValue {
+                                withAnimation(.spring()) {
+                                    isTextFieldFocused = false
+                                    showOverlay = true
+                                }
                             }
                         }
-                    }
-                    .foregroundStyle(colorManager.textColor)
-                    .accessibilityIdentifier("SearchBar")
-                    .accessibilityElement(children: .combine)
-                    .accessibilityLabel("Barra de busqueda")
-                    .accessibilityHint("Toca dos veces para iniciar la busqueda")
+                        .foregroundStyle(colorManager.textColor)
+                        .accessibilityIdentifier("SearchBar")
+                        .accessibilityElement(children: .combine)
+                        .accessibilityLabel("Barra de busqueda")
+                        .accessibilityHint("Toca dos veces para iniciar la busqueda")
+                }
+               
                 
                 Spacer()
                 
@@ -188,59 +186,62 @@ public struct ViewWrapper<Content: View>: View {
                     .accessibilityLabel("Botón de configuracion")
                     .accessibilityHint("Toca dos veces para abrir la configuracion")
                 }
+                
                 Spacer()
             }
             
-            /// Location
-            HStack {
-                HStack(spacing: 10) {
-                    Image(.marcador)
-                        .resizable()
-                        .frame(width: 20, height: 20)
-                        .foregroundStyle(colorManager.textColor)
-                        .accessibilityHidden(true)
-                    
-                    if let placemark = locationManager.placemark {
-                        Text("\(placemark.compactAddress ?? "Desconocido")")
-                            .fontWeight(.thin)
-                            .font(.system(size: 12))
+            if showHeader {
+                /// Location
+                HStack {
+                    HStack(spacing: 10) {
+                        Image(.marcador)
+                            .resizable()
+                            .frame(width: 20, height: 20)
                             .foregroundStyle(colorManager.textColor)
-                            .accessibilityIdentifier("Ubication")
-                    }
-                    
-                    Image(systemName: "chevron.right")
-                        .fontWeight(.medium)
-                        .font(.system(size: 15))
-                        .foregroundStyle(colorManager.textColor)
-                        .accessibilityHidden(true)
-                    
-                }
-                .foregroundStyle(colorManager.textColor)
-                .padding(.horizontal, 5)
-                
-                Spacer()
-                
-                if !showBackButton {
-                    HStack {
-                        Button("", systemImage: "square.grid.2x2") {
-                            showInList = false
-                        }
-                        .fontWeight(.bold)
-                        .foregroundStyle(showInList ? colorManager.textColor : colorManager.primaryColor)
-                        .font(.system(size: 20))
-                        .accessibilityIdentifier("GridButton")
-                        .accessibilityLabel("Botón Para mostrar como grilla")
-                        .accessibilityHint("Toca dos veces para usar la grilla como vista")
+                            .accessibilityHidden(true)
                         
-                        Button("", systemImage: "list.bullet") {
-                            showInList = true
+                        if let placemark = locationManager.placemark {
+                            Text("\(placemark.compactAddress ?? "Desconocido")")
+                                .fontWeight(.thin)
+                                .font(.system(size: 12))
+                                .foregroundStyle(colorManager.textColor)
+                                .accessibilityIdentifier("Ubication")
                         }
-                        .fontWeight(.bold )
-                        .foregroundStyle(showInList ? colorManager.primaryColor : colorManager.textColor)
-                        .font(.system(size: 20))
-                        .accessibilityIdentifier("ListButton")
-                        .accessibilityLabel("Botón Para mostrar como Lista")
-                        .accessibilityHint("Toca dos veces para usar la Lista como vista")
+                        
+                        Image(systemName: "chevron.right")
+                            .fontWeight(.medium)
+                            .font(.system(size: 15))
+                            .foregroundStyle(colorManager.textColor)
+                            .accessibilityHidden(true)
+                        
+                    }
+                    .foregroundStyle(colorManager.textColor)
+                    .padding(.horizontal, 5)
+                    
+                    Spacer()
+                    
+                    if !showBackButton {
+                        HStack {
+                            Button("", systemImage: "square.grid.2x2") {
+                                showInList = false
+                            }
+                            .fontWeight(.bold)
+                            .foregroundStyle(showInList ? colorManager.textColor : colorManager.primaryColor)
+                            .font(.system(size: 20))
+                            .accessibilityIdentifier("GridButton")
+                            .accessibilityLabel("Botón Para mostrar como grilla")
+                            .accessibilityHint("Toca dos veces para usar la grilla como vista")
+                            
+                            Button("", systemImage: "list.bullet") {
+                                showInList = true
+                            }
+                            .fontWeight(.bold )
+                            .foregroundStyle(showInList ? colorManager.primaryColor : colorManager.textColor)
+                            .font(.system(size: 20))
+                            .accessibilityIdentifier("ListButton")
+                            .accessibilityLabel("Botón Para mostrar como Lista")
+                            .accessibilityHint("Toca dos veces para usar la Lista como vista")
+                        }
                     }
                 }
             }

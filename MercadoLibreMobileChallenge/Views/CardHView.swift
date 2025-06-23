@@ -20,6 +20,7 @@ struct CardHView: View {
             productImage
             Spacer()
             productDescription
+                .padding(.bottom, 15)
         }
         .padding(.horizontal, 8)
         .onAppear {

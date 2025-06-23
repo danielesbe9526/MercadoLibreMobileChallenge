@@ -9,6 +9,8 @@ import SwiftUI
 
 /// `NavigationWrapperView` es una vista que envuelve contenido en un `NavigationStack` y maneja la navegación.
 struct NavigationWrapperView<Content: View>: View {
+    /// Objeto que maneja el tema de color de la aplicación.
+    @EnvironmentObject var colorManager: ThemeManager
     
     /// ViewModel que gestiona la navegación de destinos.
     @ObservedObject var destination: DestinationViewModel
@@ -37,7 +39,10 @@ struct NavigationWrapperView<Content: View>: View {
                 .navigationDestination(for: ScreenDestination.self) {
                     fabric.createView(item: $0)
                 }
+                .background(
+                    Color(colorManager.mainColor)
+                        .ignoresSafeArea(edges: .top)
+                )
         }
-        .background(Color(UIColor(resource: .amarilloML)))
     }
 }

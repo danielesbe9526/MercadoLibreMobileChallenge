@@ -30,10 +30,13 @@ struct HomeView: View {
                             ForEach(products) { product in
                                 if showInList {
                                     CardVView(product: product, viewModel: viewModel)
-                                        .padding(.top, 16)
+                                        .padding(8)
                                         .onTapGesture {
                                             viewModel.getDetailProduct()
                                         }
+                                        .background(colorManager.backgroundColor)
+                                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                                        .shadow(color: .black.opacity(0.1), radius: 20, x: 0, y: 10)
                                         .accessibilityIdentifier("Cardv")
                                         .accessibilityElement(children: .combine)
                                         .accessibilityHint("Toca dos veces para ver mas detalles")
@@ -48,6 +51,9 @@ struct HomeView: View {
                                             viewModel.getDetailProduct()
                                         }
                                         .frame(height: 500)
+                                        .background(colorManager.backgroundColor)
+                                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                                        .shadow(color: .black.opacity(0.1), radius: 20, x: 5, y: 5)
                                         .accessibilityIdentifier("CardH")
                                         .accessibilityElement(children: .combine)
                                         .accessibilityHint("Toca dos veces para ver mas detalles")
@@ -60,13 +66,15 @@ struct HomeView: View {
                     }
                     .animation(.easeInOut(duration: 0.5), value: showInList)
                 }
-                .background(colorManager.backgroundColor)
+                .padding(.top, 10)
+                .background(.gray.opacity(0.1))
+                
             }
             .onAppear {
                 viewModel.getHomeProducts()
             }
+            .background(colorManager.backgroundColor)
         }
-        .background(colorManager.mainColor)
         .onChange(of: locationManager.errorMessage) { oldValue, newValue in
             if newValue != nil {
                 alertModel = AlertModel(title: "🚧 Error obteniendo ubicacion 🚧",

@@ -17,7 +17,6 @@ struct CardVView: View {
 
     var body: some View {
         HStack(spacing: 5) {
-            Spacer()
             productImage
             productDescription
                 .padding(5)
